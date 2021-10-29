@@ -30,10 +30,12 @@ library(DescTools)
 library(GGally)
 library(baseballr)
 library(MVA)
+library(stringr)
+
 ```
 
-
-```{r}
+# Data Read In 
+```{r eval=FALSE, include=FALSE}
 #Pitch By Pitch Savant Data
 
 # storeH2 <- scrape_statcast_savant_batter_all(start_date = "2019-03-20", end_date = "2019-04-04")
@@ -67,10 +69,7 @@ library(MVA)
 # #Saving the very large dataset so I won't need to run the above code again
 #  save(all_pitches19, file = "data/SavantPitch19.rda")
 ```
-
-
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 # storeH2 <- scrape_statcast_savant_batter_all(start_date = "2018-03-20", end_date = "2018-04-04")
 # storeH3 <- scrape_statcast_savant_batter_all(start_date = "2018-04-05", end_date = "2018-04-13")
 # storeH4 <- scrape_statcast_savant_batter_all(start_date = "2018-04-14", end_date = "2018-04-21")
@@ -101,8 +100,7 @@ library(MVA)
 # #Saving the very large dataset so I won't need to run the above code again
 #  save(all_pitches18, file = "data/SavantPitch18.rda")
 ```
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 # storeH2 <- scrape_statcast_savant_batter_all(start_date = "2017-03-20", end_date = "2017-04-04")
 # storeH3 <- scrape_statcast_savant_batter_all(start_date = "2017-04-05", end_date = "2017-04-13")
 # storeH4 <- scrape_statcast_savant_batter_all(start_date = "2017-04-14", end_date = "2017-04-21")
@@ -133,8 +131,7 @@ library(MVA)
 # #Saving the very large dataset so I won't need to run the above code again
 #  save(all_pitches17, file = "data/SavantPitch17.rda")
 ```
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 # storeH2 <- scrape_statcast_savant_batter_all(start_date = "2016-03-20", end_date = "2016-04-04")
 # storeH3 <- scrape_statcast_savant_batter_all(start_date = "2016-04-05", end_date = "2016-04-13")
 # storeH4 <- scrape_statcast_savant_batter_all(start_date = "2016-04-14", end_date = "2016-04-21")
@@ -165,9 +162,7 @@ library(MVA)
 # #Saving the very large dataset so I won't need to run the above code again
 #  save(all_pitches16, file = "data/SavantPitch16.rda")
 ```
-
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 # storeH2 <- scrape_statcast_savant_batter_all(start_date = "2015-03-20", end_date = "2015-04-04")
 # storeH3 <- scrape_statcast_savant_batter_all(start_date = "2015-04-05", end_date = "2015-04-13")
 # storeH4 <- scrape_statcast_savant_batter_all(start_date = "2015-04-14", end_date = "2015-04-21")
@@ -200,14 +195,89 @@ library(MVA)
 #  save(all_pitches15, file = "data/SavantPitch15.rda")
 ```
 
+```{r}
+#  load("data/SavantPitch19.rda")
+# load("data/SavantPitch18.rda")
+# load("data/SavantPitch17.rda")
+# load("data/SavantPitch16.rda")
+# load("data/SavantPitch15.rda")
+```
+
 
 ```{r}
-load("data/SavantPitch19.rda")
-load("data/SavantPitch18.rda")
-load("data/SavantPitch17.rda")
-load("data/SavantPitch16.rda")
-load("data/SavantPitch15.rda")
+# pitchers_2015 <- all_pitches15 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
+# 
+# pitchers_2016 <-all_pitches16 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
+# 
+# pitchers_2017 <- all_pitches17 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
+# 
+# pitchers_2018 <- all_pitches18 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
+# 
+# pitchers_2019 <- all_pitches19 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
+# 
+# all_pitchers <- rbind(pitchers_2015,pitchers_2016,pitchers_2017,pitchers_2018,pitchers_2019)
 ```
+
+```{r}
+# pitcher_info <- all_pitchers %>% group_by(pitcher, pitch_name,pitch_type) %>%
+#   summarise(count = n(), release_speed = mean(release_speed, na.rm=TRUE), release_pos_z = mean(release_pos_z, na.rm=TRUE), release_pos_x = mean(release_pos_x, na.rm=TRUE),release_spin_rate= mean(release_spin_rate, na.rm=TRUE)) %>% filter(count >= 100)%>%drop_na()
+# 
+# save(pitcher_info, file = "data/pitcher_info.rda")
+```
+
+
+
+```{r}
+# all_pitches15 <- all_pitches15 %>%
+#   filter(!is.na(events)) %>%
+#   select(player_name, pitcher, batter, events) %>%
+#   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER")))))))) %>% mutate(year = 2015)
+# 
+# all_pitches16 <- all_pitches16 %>%
+#   filter(!is.na(events)) %>%
+#   select(player_name, pitcher, batter, events) %>%
+#   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2016)
+# 
+# all_pitches17 <- all_pitches17 %>%
+#   filter(!is.na(events)) %>%
+#   select(player_name, pitcher, batter, events) %>%
+#   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2017)
+# 
+# all_pitches18 <- all_pitches18 %>%
+#   filter(!is.na(events)) %>%
+#   select(player_name, pitcher, batter, events) %>%
+#   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2018)
+# 
+# all_pitches19 <- all_pitches19 %>%
+#   filter(!is.na(events)) %>%
+#   select(player_name, pitcher, batter, events) %>%
+#   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2019)
+# 
+# all_pitches <- rbind(all_pitches15,all_pitches16,all_pitches17,all_pitches18,all_pitches19)
+# save(all_pitches, file = "data/allPitches.rda")
+```
+
+
+```{r}
+load("data/allPitches.rda")
+load("data/pitcher_info.rda")
+```
+
+```{r, message=FALSE}
+pitcher_info_2019 <- read_csv("data/pitching_data_2019.csv")
+pitcher_info_2018 <- read_csv("data/pitching_data_2018.csv")
+pitcher_info_2017 <- read_csv("data/pitching_data_2017.csv")
+pitcher_info_2016 <- read_csv("data/pitching_data_2016.csv")
+pitcher_info_2015 <- read_csv("data/pitching_data_2015.csv")
+
+all_pitcher_info <- rbind(pitcher_info_2019,pitcher_info_2018,pitcher_info_2017,pitcher_info_2016,pitcher_info_2015)
+```
+
+```{r}
+
+```
+
+
 
 \newpage
 
@@ -566,7 +636,6 @@ load("/Users/XanderPA/Desktop/Old Amherst /Competition Stats/Final Project/files
 
 
 ```{r}
-library(stringr)
 events <- all_pitches %>%
   filter(!is.na(events)) %>%
   select(player_name, pitcher, batter, events) %>%
