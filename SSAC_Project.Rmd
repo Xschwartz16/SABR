@@ -36,168 +36,168 @@ library(MVA)
 ```{r}
 #Pitch By Pitch Savant Data
 
-storeH2 <- scrape_statcast_savant_batter_all(start_date = "2019-03-20", end_date = "2019-04-04")
-storeH3 <- scrape_statcast_savant_batter_all(start_date = "2019-04-05", end_date = "2019-04-13")
-storeH4 <- scrape_statcast_savant_batter_all(start_date = "2019-04-14", end_date = "2019-04-21")
-storeH5 <- scrape_statcast_savant_batter_all(start_date = "2019-04-22", end_date = "2019-05-01")
-storeH6 <- scrape_statcast_savant_batter_all(start_date = "2019-05-02", end_date = "2019-05-10")
-storeH7 <- scrape_statcast_savant_batter_all(start_date = "2019-05-11", end_date = "2019-05-19")
-storeH8 <- scrape_statcast_savant_batter_all(start_date = "2019-05-20", end_date = "2019-05-28")
-storeH9 <- scrape_statcast_savant_batter_all(start_date = "2019-05-29", end_date = "2019-06-05")
-storeH10 <- scrape_statcast_savant_batter_all(start_date = "2019-06-06", end_date = "2019-06-14")
-storeH11 <- scrape_statcast_savant_batter_all(start_date = "2019-06-15", end_date = "2019-06-23")
-storeH12 <- scrape_statcast_savant_batter_all(start_date = "2019-06-24", end_date = "2019-07-01")
-storeH13 <- scrape_statcast_savant_batter_all(start_date = "2019-07-02", end_date = "2019-07-11")
-storeH14 <- scrape_statcast_savant_batter_all(start_date = "2019-07-12", end_date = "2019-07-20")
-storeH15 <- scrape_statcast_savant_batter_all(start_date = "2019-07-21", end_date = "2019-07-29")
-storeH16 <- scrape_statcast_savant_batter_all(start_date = "2019-07-30", end_date = "2019-08-05")
-storeH17 <- scrape_statcast_savant_batter_all(start_date = "2019-08-06", end_date = "2019-08-14")
-storeH18 <- scrape_statcast_savant_batter_all(start_date = "2019-08-15", end_date = "2019-08-23")
-storeH19 <- scrape_statcast_savant_batter_all(start_date = "2019-08-24", end_date = "2019-09-01")
-storeH20 <- scrape_statcast_savant_batter_all(start_date = "2019-09-02", end_date = "2019-09-10")
-storeH21 <- scrape_statcast_savant_batter_all(start_date = "2019-09-11", end_date = "2019-09-19")
-storeH22 <- scrape_statcast_savant_batter_all(start_date = "2019-09-20", end_date = "2019-09-28")
-storeH23 <- scrape_statcast_savant_batter_all(start_date = "2019-09-29", end_date = "2019-10-05")
-
- all_pitches <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
-                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
-                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
-                      storeH21, storeH22, storeH23)
-
-#Saving the very large dataset so I won't need to run the above code again
- save(all_pitches, file = "data/SavantPitch19.rda")
+# storeH2 <- scrape_statcast_savant_batter_all(start_date = "2019-03-20", end_date = "2019-04-04")
+# storeH3 <- scrape_statcast_savant_batter_all(start_date = "2019-04-05", end_date = "2019-04-13")
+# storeH4 <- scrape_statcast_savant_batter_all(start_date = "2019-04-14", end_date = "2019-04-21")
+# storeH5 <- scrape_statcast_savant_batter_all(start_date = "2019-04-22", end_date = "2019-05-01")
+# storeH6 <- scrape_statcast_savant_batter_all(start_date = "2019-05-02", end_date = "2019-05-10")
+# storeH7 <- scrape_statcast_savant_batter_all(start_date = "2019-05-11", end_date = "2019-05-19")
+# storeH8 <- scrape_statcast_savant_batter_all(start_date = "2019-05-20", end_date = "2019-05-28")
+# storeH9 <- scrape_statcast_savant_batter_all(start_date = "2019-05-29", end_date = "2019-06-05")
+# storeH10 <- scrape_statcast_savant_batter_all(start_date = "2019-06-06", end_date = "2019-06-14")
+# storeH11 <- scrape_statcast_savant_batter_all(start_date = "2019-06-15", end_date = "2019-06-23")
+# storeH12 <- scrape_statcast_savant_batter_all(start_date = "2019-06-24", end_date = "2019-07-01")
+# storeH13 <- scrape_statcast_savant_batter_all(start_date = "2019-07-02", end_date = "2019-07-11")
+# storeH14 <- scrape_statcast_savant_batter_all(start_date = "2019-07-12", end_date = "2019-07-20")
+# storeH15 <- scrape_statcast_savant_batter_all(start_date = "2019-07-21", end_date = "2019-07-29")
+# storeH16 <- scrape_statcast_savant_batter_all(start_date = "2019-07-30", end_date = "2019-08-05")
+# storeH17 <- scrape_statcast_savant_batter_all(start_date = "2019-08-06", end_date = "2019-08-14")
+# storeH18 <- scrape_statcast_savant_batter_all(start_date = "2019-08-15", end_date = "2019-08-23")
+# storeH19 <- scrape_statcast_savant_batter_all(start_date = "2019-08-24", end_date = "2019-09-01")
+# storeH20 <- scrape_statcast_savant_batter_all(start_date = "2019-09-02", end_date = "2019-09-10")
+# storeH21 <- scrape_statcast_savant_batter_all(start_date = "2019-09-11", end_date = "2019-09-19")
+# storeH22 <- scrape_statcast_savant_batter_all(start_date = "2019-09-20", end_date = "2019-09-28")
+# storeH23 <- scrape_statcast_savant_batter_all(start_date = "2019-09-29", end_date = "2019-10-05")
+# 
+#  all_pitches19 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+#                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+#                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+#                       storeH21, storeH22, storeH23)
+# 
+# #Saving the very large dataset so I won't need to run the above code again
+#  save(all_pitches19, file = "data/SavantPitch19.rda")
 ```
 
 
 
 ```{r}
-storeH2 <- scrape_statcast_savant_batter_all(start_date = "2018-03-20", end_date = "2018-04-04")
-storeH3 <- scrape_statcast_savant_batter_all(start_date = "2018-04-05", end_date = "2018-04-13")
-storeH4 <- scrape_statcast_savant_batter_all(start_date = "2018-04-14", end_date = "2018-04-21")
-storeH5 <- scrape_statcast_savant_batter_all(start_date = "2018-04-22", end_date = "2018-05-01")
-storeH6 <- scrape_statcast_savant_batter_all(start_date = "2018-05-02", end_date = "2018-05-10")
-storeH7 <- scrape_statcast_savant_batter_all(start_date = "2018-05-11", end_date = "2018-05-19")
-storeH8 <- scrape_statcast_savant_batter_all(start_date = "2018-05-20", end_date = "2018-05-28")
-storeH9 <- scrape_statcast_savant_batter_all(start_date = "2018-05-29", end_date = "2018-06-05")
-storeH10 <- scrape_statcast_savant_batter_all(start_date = "2018-06-06", end_date = "2018-06-14")
-storeH11 <- scrape_statcast_savant_batter_all(start_date = "2018-06-15", end_date = "2018-06-23")
-storeH12 <- scrape_statcast_savant_batter_all(start_date = "2018-06-24", end_date = "2018-07-01")
-storeH13 <- scrape_statcast_savant_batter_all(start_date = "2018-07-02", end_date = "2018-07-11")
-storeH14 <- scrape_statcast_savant_batter_all(start_date = "2018-07-12", end_date = "2018-07-20")
-storeH15 <- scrape_statcast_savant_batter_all(start_date = "2018-07-21", end_date = "2018-07-29")
-storeH16 <- scrape_statcast_savant_batter_all(start_date = "2018-07-30", end_date = "2018-08-05")
-storeH17 <- scrape_statcast_savant_batter_all(start_date = "2018-08-06", end_date = "2018-08-14")
-storeH18 <- scrape_statcast_savant_batter_all(start_date = "2018-08-15", end_date = "2018-08-23")
-storeH19 <- scrape_statcast_savant_batter_all(start_date = "2018-08-24", end_date = "2018-09-01")
-storeH20 <- scrape_statcast_savant_batter_all(start_date = "2018-09-02", end_date = "2018-09-10")
-storeH21 <- scrape_statcast_savant_batter_all(start_date = "2018-09-11", end_date = "2018-09-19")
-storeH22 <- scrape_statcast_savant_batter_all(start_date = "2018-09-20", end_date = "2018-09-28")
-storeH23 <- scrape_statcast_savant_batter_all(start_date = "2018-09-29", end_date = "2018-10-05")
-
- all_pitches <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
-                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
-                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
-                      storeH21, storeH22, storeH23)
-#Saving the very large dataset so I won't need to run the above code again
- save(all_pitches, file = "data/SavantPitch18.rda")
+# storeH2 <- scrape_statcast_savant_batter_all(start_date = "2018-03-20", end_date = "2018-04-04")
+# storeH3 <- scrape_statcast_savant_batter_all(start_date = "2018-04-05", end_date = "2018-04-13")
+# storeH4 <- scrape_statcast_savant_batter_all(start_date = "2018-04-14", end_date = "2018-04-21")
+# storeH5 <- scrape_statcast_savant_batter_all(start_date = "2018-04-22", end_date = "2018-05-01")
+# storeH6 <- scrape_statcast_savant_batter_all(start_date = "2018-05-02", end_date = "2018-05-10")
+# storeH7 <- scrape_statcast_savant_batter_all(start_date = "2018-05-11", end_date = "2018-05-19")
+# storeH8 <- scrape_statcast_savant_batter_all(start_date = "2018-05-20", end_date = "2018-05-28")
+# storeH9 <- scrape_statcast_savant_batter_all(start_date = "2018-05-29", end_date = "2018-06-05")
+# storeH10 <- scrape_statcast_savant_batter_all(start_date = "2018-06-06", end_date = "2018-06-14")
+# storeH11 <- scrape_statcast_savant_batter_all(start_date = "2018-06-15", end_date = "2018-06-23")
+# storeH12 <- scrape_statcast_savant_batter_all(start_date = "2018-06-24", end_date = "2018-07-01")
+# storeH13 <- scrape_statcast_savant_batter_all(start_date = "2018-07-02", end_date = "2018-07-11")
+# storeH14 <- scrape_statcast_savant_batter_all(start_date = "2018-07-12", end_date = "2018-07-20")
+# storeH15 <- scrape_statcast_savant_batter_all(start_date = "2018-07-21", end_date = "2018-07-29")
+# storeH16 <- scrape_statcast_savant_batter_all(start_date = "2018-07-30", end_date = "2018-08-05")
+# storeH17 <- scrape_statcast_savant_batter_all(start_date = "2018-08-06", end_date = "2018-08-14")
+# storeH18 <- scrape_statcast_savant_batter_all(start_date = "2018-08-15", end_date = "2018-08-23")
+# storeH19 <- scrape_statcast_savant_batter_all(start_date = "2018-08-24", end_date = "2018-09-01")
+# storeH20 <- scrape_statcast_savant_batter_all(start_date = "2018-09-02", end_date = "2018-09-10")
+# storeH21 <- scrape_statcast_savant_batter_all(start_date = "2018-09-11", end_date = "2018-09-19")
+# storeH22 <- scrape_statcast_savant_batter_all(start_date = "2018-09-20", end_date = "2018-09-28")
+# storeH23 <- scrape_statcast_savant_batter_all(start_date = "2018-09-29", end_date = "2018-10-05")
+# 
+#  all_pitches18 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+#                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+#                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+#                       storeH21, storeH22, storeH23)
+# #Saving the very large dataset so I won't need to run the above code again
+#  save(all_pitches18, file = "data/SavantPitch18.rda")
 ```
 
 ```{r}
-storeH2 <- scrape_statcast_savant_batter_all(start_date = "2017-03-20", end_date = "2017-04-04")
-storeH3 <- scrape_statcast_savant_batter_all(start_date = "2017-04-05", end_date = "2017-04-13")
-storeH4 <- scrape_statcast_savant_batter_all(start_date = "2017-04-14", end_date = "2017-04-21")
-storeH5 <- scrape_statcast_savant_batter_all(start_date = "2017-04-22", end_date = "2017-05-01")
-storeH6 <- scrape_statcast_savant_batter_all(start_date = "2017-05-02", end_date = "2017-05-10")
-storeH7 <- scrape_statcast_savant_batter_all(start_date = "2017-05-11", end_date = "2017-05-19")
-storeH8 <- scrape_statcast_savant_batter_all(start_date = "2017-05-20", end_date = "2017-05-28")
-storeH9 <- scrape_statcast_savant_batter_all(start_date = "2017-05-29", end_date = "2017-06-05")
-storeH10 <- scrape_statcast_savant_batter_all(start_date = "2017-06-06", end_date = "2017-06-14")
-storeH11 <- scrape_statcast_savant_batter_all(start_date = "2017-06-15", end_date = "2017-06-23")
-storeH12 <- scrape_statcast_savant_batter_all(start_date = "2017-06-24", end_date = "2017-07-01")
-storeH13 <- scrape_statcast_savant_batter_all(start_date = "2017-07-02", end_date = "2017-07-11")
-storeH14 <- scrape_statcast_savant_batter_all(start_date = "2017-07-12", end_date = "2017-07-20")
-storeH15 <- scrape_statcast_savant_batter_all(start_date = "2017-07-21", end_date = "2017-07-29")
-storeH16 <- scrape_statcast_savant_batter_all(start_date = "2017-07-30", end_date = "2017-08-05")
-storeH17 <- scrape_statcast_savant_batter_all(start_date = "2017-08-06", end_date = "2017-08-14")
-storeH18 <- scrape_statcast_savant_batter_all(start_date = "2017-08-15", end_date = "2017-08-23")
-storeH19 <- scrape_statcast_savant_batter_all(start_date = "2017-08-24", end_date = "2017-09-01")
-storeH20 <- scrape_statcast_savant_batter_all(start_date = "2017-09-02", end_date = "2017-09-10")
-storeH21 <- scrape_statcast_savant_batter_all(start_date = "2017-09-11", end_date = "2017-09-19")
-storeH22 <- scrape_statcast_savant_batter_all(start_date = "2017-09-20", end_date = "2017-09-28")
-storeH23 <- scrape_statcast_savant_batter_all(start_date = "2017-09-29", end_date = "2017-10-05")
-
- all_pitches <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
-                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
-                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
-                      storeH21, storeH22, storeH23)
-#Saving the very large dataset so I won't need to run the above code again
- save(all_pitches, file = "data/SavantPitch17.rda")
+# storeH2 <- scrape_statcast_savant_batter_all(start_date = "2017-03-20", end_date = "2017-04-04")
+# storeH3 <- scrape_statcast_savant_batter_all(start_date = "2017-04-05", end_date = "2017-04-13")
+# storeH4 <- scrape_statcast_savant_batter_all(start_date = "2017-04-14", end_date = "2017-04-21")
+# storeH5 <- scrape_statcast_savant_batter_all(start_date = "2017-04-22", end_date = "2017-05-01")
+# storeH6 <- scrape_statcast_savant_batter_all(start_date = "2017-05-02", end_date = "2017-05-10")
+# storeH7 <- scrape_statcast_savant_batter_all(start_date = "2017-05-11", end_date = "2017-05-19")
+# storeH8 <- scrape_statcast_savant_batter_all(start_date = "2017-05-20", end_date = "2017-05-28")
+# storeH9 <- scrape_statcast_savant_batter_all(start_date = "2017-05-29", end_date = "2017-06-05")
+# storeH10 <- scrape_statcast_savant_batter_all(start_date = "2017-06-06", end_date = "2017-06-14")
+# storeH11 <- scrape_statcast_savant_batter_all(start_date = "2017-06-15", end_date = "2017-06-23")
+# storeH12 <- scrape_statcast_savant_batter_all(start_date = "2017-06-24", end_date = "2017-07-01")
+# storeH13 <- scrape_statcast_savant_batter_all(start_date = "2017-07-02", end_date = "2017-07-11")
+# storeH14 <- scrape_statcast_savant_batter_all(start_date = "2017-07-12", end_date = "2017-07-20")
+# storeH15 <- scrape_statcast_savant_batter_all(start_date = "2017-07-21", end_date = "2017-07-29")
+# storeH16 <- scrape_statcast_savant_batter_all(start_date = "2017-07-30", end_date = "2017-08-05")
+# storeH17 <- scrape_statcast_savant_batter_all(start_date = "2017-08-06", end_date = "2017-08-14")
+# storeH18 <- scrape_statcast_savant_batter_all(start_date = "2017-08-15", end_date = "2017-08-23")
+# storeH19 <- scrape_statcast_savant_batter_all(start_date = "2017-08-24", end_date = "2017-09-01")
+# storeH20 <- scrape_statcast_savant_batter_all(start_date = "2017-09-02", end_date = "2017-09-10")
+# storeH21 <- scrape_statcast_savant_batter_all(start_date = "2017-09-11", end_date = "2017-09-19")
+# storeH22 <- scrape_statcast_savant_batter_all(start_date = "2017-09-20", end_date = "2017-09-28")
+# storeH23 <- scrape_statcast_savant_batter_all(start_date = "2017-09-29", end_date = "2017-10-05")
+# 
+#  all_pitches17 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+#                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+#                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+#                       storeH21, storeH22, storeH23)
+# #Saving the very large dataset so I won't need to run the above code again
+#  save(all_pitches17, file = "data/SavantPitch17.rda")
 ```
 
 ```{r}
-storeH2 <- scrape_statcast_savant_batter_all(start_date = "2016-03-20", end_date = "2016-04-04")
-storeH3 <- scrape_statcast_savant_batter_all(start_date = "2016-04-05", end_date = "2016-04-13")
-storeH4 <- scrape_statcast_savant_batter_all(start_date = "2016-04-14", end_date = "2016-04-21")
-storeH5 <- scrape_statcast_savant_batter_all(start_date = "2016-04-22", end_date = "2016-05-01")
-storeH6 <- scrape_statcast_savant_batter_all(start_date = "2016-05-02", end_date = "2016-05-10")
-storeH7 <- scrape_statcast_savant_batter_all(start_date = "2016-05-11", end_date = "2016-05-19")
-storeH8 <- scrape_statcast_savant_batter_all(start_date = "2016-05-20", end_date = "2016-05-28")
-storeH9 <- scrape_statcast_savant_batter_all(start_date = "2016-05-29", end_date = "2016-06-05")
-storeH10 <- scrape_statcast_savant_batter_all(start_date = "2016-06-06", end_date = "2016-06-14")
-storeH11 <- scrape_statcast_savant_batter_all(start_date = "2016-06-15", end_date = "2016-06-23")
-storeH12 <- scrape_statcast_savant_batter_all(start_date = "2016-06-24", end_date = "2016-07-01")
-storeH13 <- scrape_statcast_savant_batter_all(start_date = "2016-07-02", end_date = "2016-07-11")
-storeH14 <- scrape_statcast_savant_batter_all(start_date = "2016-07-12", end_date = "2016-07-20")
-storeH15 <- scrape_statcast_savant_batter_all(start_date = "2016-07-21", end_date = "2016-07-29")
-storeH16 <- scrape_statcast_savant_batter_all(start_date = "2016-07-30", end_date = "2016-08-05")
-storeH17 <- scrape_statcast_savant_batter_all(start_date = "2016-08-06", end_date = "2016-08-14")
-storeH18 <- scrape_statcast_savant_batter_all(start_date = "2016-08-15", end_date = "2016-08-23")
-storeH19 <- scrape_statcast_savant_batter_all(start_date = "2016-08-24", end_date = "2016-09-01")
-storeH20 <- scrape_statcast_savant_batter_all(start_date = "2016-09-02", end_date = "2016-09-10")
-storeH21 <- scrape_statcast_savant_batter_all(start_date = "2016-09-11", end_date = "2016-09-19")
-storeH22 <- scrape_statcast_savant_batter_all(start_date = "2016-09-20", end_date = "2016-09-28")
-storeH23 <- scrape_statcast_savant_batter_all(start_date = "2016-09-29", end_date = "2016-10-05")
-
- all_pitches <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
-                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
-                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
-                      storeH21, storeH22, storeH23)
-#Saving the very large dataset so I won't need to run the above code again
- save(all_pitches, file = "data/SavantPitch16.rda")
+# storeH2 <- scrape_statcast_savant_batter_all(start_date = "2016-03-20", end_date = "2016-04-04")
+# storeH3 <- scrape_statcast_savant_batter_all(start_date = "2016-04-05", end_date = "2016-04-13")
+# storeH4 <- scrape_statcast_savant_batter_all(start_date = "2016-04-14", end_date = "2016-04-21")
+# storeH5 <- scrape_statcast_savant_batter_all(start_date = "2016-04-22", end_date = "2016-05-01")
+# storeH6 <- scrape_statcast_savant_batter_all(start_date = "2016-05-02", end_date = "2016-05-10")
+# storeH7 <- scrape_statcast_savant_batter_all(start_date = "2016-05-11", end_date = "2016-05-19")
+# storeH8 <- scrape_statcast_savant_batter_all(start_date = "2016-05-20", end_date = "2016-05-28")
+# storeH9 <- scrape_statcast_savant_batter_all(start_date = "2016-05-29", end_date = "2016-06-05")
+# storeH10 <- scrape_statcast_savant_batter_all(start_date = "2016-06-06", end_date = "2016-06-14")
+# storeH11 <- scrape_statcast_savant_batter_all(start_date = "2016-06-15", end_date = "2016-06-23")
+# storeH12 <- scrape_statcast_savant_batter_all(start_date = "2016-06-24", end_date = "2016-07-01")
+# storeH13 <- scrape_statcast_savant_batter_all(start_date = "2016-07-02", end_date = "2016-07-11")
+# storeH14 <- scrape_statcast_savant_batter_all(start_date = "2016-07-12", end_date = "2016-07-20")
+# storeH15 <- scrape_statcast_savant_batter_all(start_date = "2016-07-21", end_date = "2016-07-29")
+# storeH16 <- scrape_statcast_savant_batter_all(start_date = "2016-07-30", end_date = "2016-08-05")
+# storeH17 <- scrape_statcast_savant_batter_all(start_date = "2016-08-06", end_date = "2016-08-14")
+# storeH18 <- scrape_statcast_savant_batter_all(start_date = "2016-08-15", end_date = "2016-08-23")
+# storeH19 <- scrape_statcast_savant_batter_all(start_date = "2016-08-24", end_date = "2016-09-01")
+# storeH20 <- scrape_statcast_savant_batter_all(start_date = "2016-09-02", end_date = "2016-09-10")
+# storeH21 <- scrape_statcast_savant_batter_all(start_date = "2016-09-11", end_date = "2016-09-19")
+# storeH22 <- scrape_statcast_savant_batter_all(start_date = "2016-09-20", end_date = "2016-09-28")
+# storeH23 <- scrape_statcast_savant_batter_all(start_date = "2016-09-29", end_date = "2016-10-05")
+# 
+#  all_pitches16 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+#                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+#                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+#                       storeH21, storeH22, storeH23)
+# #Saving the very large dataset so I won't need to run the above code again
+#  save(all_pitches16, file = "data/SavantPitch16.rda")
 ```
 
 
 ```{r}
-storeH2 <- scrape_statcast_savant_batter_all(start_date = "2015-03-20", end_date = "2015-04-04")
-storeH3 <- scrape_statcast_savant_batter_all(start_date = "2015-04-05", end_date = "2015-04-13")
-storeH4 <- scrape_statcast_savant_batter_all(start_date = "2015-04-14", end_date = "2015-04-21")
-storeH5 <- scrape_statcast_savant_batter_all(start_date = "2015-04-22", end_date = "2015-05-01")
-storeH6 <- scrape_statcast_savant_batter_all(start_date = "2015-05-02", end_date = "2015-05-10")
-storeH7 <- scrape_statcast_savant_batter_all(start_date = "2015-05-11", end_date = "2015-05-19")
-storeH8 <- scrape_statcast_savant_batter_all(start_date = "2015-05-20", end_date = "2015-05-28")
-storeH9 <- scrape_statcast_savant_batter_all(start_date = "2015-05-29", end_date = "2015-06-05")
-storeH10 <- scrape_statcast_savant_batter_all(start_date = "2015-06-06", end_date = "2015-06-14")
-storeH11 <- scrape_statcast_savant_batter_all(start_date = "2015-06-15", end_date = "2015-06-23")
-storeH12 <- scrape_statcast_savant_batter_all(start_date = "2015-06-24", end_date = "2015-07-01")
-storeH13 <- scrape_statcast_savant_batter_all(start_date = "2015-07-02", end_date = "2015-07-11")
-storeH14 <- scrape_statcast_savant_batter_all(start_date = "2015-07-12", end_date = "2015-07-20")
-storeH15 <- scrape_statcast_savant_batter_all(start_date = "2015-07-21", end_date = "2015-07-29")
-storeH16 <- scrape_statcast_savant_batter_all(start_date = "2015-07-30", end_date = "2015-08-05")
-storeH17 <- scrape_statcast_savant_batter_all(start_date = "2015-08-06", end_date = "2015-08-14")
-storeH18 <- scrape_statcast_savant_batter_all(start_date = "2015-08-15", end_date = "2015-08-23")
-storeH19 <- scrape_statcast_savant_batter_all(start_date = "2015-08-24", end_date = "2015-09-01")
-storeH20 <- scrape_statcast_savant_batter_all(start_date = "2015-09-02", end_date = "2015-09-10")
-storeH21 <- scrape_statcast_savant_batter_all(start_date = "2015-09-11", end_date = "2015-09-19")
-storeH22 <- scrape_statcast_savant_batter_all(start_date = "2015-09-20", end_date = "2015-09-28")
-storeH23 <- scrape_statcast_savant_batter_all(start_date = "2015-09-29", end_date = "2015-10-05")
-
- all_pitches <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
-                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
-                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
-                      storeH21, storeH22, storeH23)
-
-#Saving the very large dataset so I won't need to run the above code again
- save(all_pitches, file = "data/SavantPitch15.rda")
+# storeH2 <- scrape_statcast_savant_batter_all(start_date = "2015-03-20", end_date = "2015-04-04")
+# storeH3 <- scrape_statcast_savant_batter_all(start_date = "2015-04-05", end_date = "2015-04-13")
+# storeH4 <- scrape_statcast_savant_batter_all(start_date = "2015-04-14", end_date = "2015-04-21")
+# storeH5 <- scrape_statcast_savant_batter_all(start_date = "2015-04-22", end_date = "2015-05-01")
+# storeH6 <- scrape_statcast_savant_batter_all(start_date = "2015-05-02", end_date = "2015-05-10")
+# storeH7 <- scrape_statcast_savant_batter_all(start_date = "2015-05-11", end_date = "2015-05-19")
+# storeH8 <- scrape_statcast_savant_batter_all(start_date = "2015-05-20", end_date = "2015-05-28")
+# storeH9 <- scrape_statcast_savant_batter_all(start_date = "2015-05-29", end_date = "2015-06-05")
+# storeH10 <- scrape_statcast_savant_batter_all(start_date = "2015-06-06", end_date = "2015-06-14")
+# storeH11 <- scrape_statcast_savant_batter_all(start_date = "2015-06-15", end_date = "2015-06-23")
+# storeH12 <- scrape_statcast_savant_batter_all(start_date = "2015-06-24", end_date = "2015-07-01")
+# storeH13 <- scrape_statcast_savant_batter_all(start_date = "2015-07-02", end_date = "2015-07-11")
+# storeH14 <- scrape_statcast_savant_batter_all(start_date = "2015-07-12", end_date = "2015-07-20")
+# storeH15 <- scrape_statcast_savant_batter_all(start_date = "2015-07-21", end_date = "2015-07-29")
+# storeH16 <- scrape_statcast_savant_batter_all(start_date = "2015-07-30", end_date = "2015-08-05")
+# storeH17 <- scrape_statcast_savant_batter_all(start_date = "2015-08-06", end_date = "2015-08-14")
+# storeH18 <- scrape_statcast_savant_batter_all(start_date = "2015-08-15", end_date = "2015-08-23")
+# storeH19 <- scrape_statcast_savant_batter_all(start_date = "2015-08-24", end_date = "2015-09-01")
+# storeH20 <- scrape_statcast_savant_batter_all(start_date = "2015-09-02", end_date = "2015-09-10")
+# storeH21 <- scrape_statcast_savant_batter_all(start_date = "2015-09-11", end_date = "2015-09-19")
+# storeH22 <- scrape_statcast_savant_batter_all(start_date = "2015-09-20", end_date = "2015-09-28")
+# storeH23 <- scrape_statcast_savant_batter_all(start_date = "2015-09-29", end_date = "2015-10-05")
+# 
+#  all_pitches <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+#                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+#                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+#                       storeH21, storeH22, storeH23)
+# 
+# #Saving the very large dataset so I won't need to run the above code again
+#  save(all_pitches, file = "data/SavantPitch15.rda")
 ```
 
 \newpage
