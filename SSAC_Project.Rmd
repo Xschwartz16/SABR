@@ -191,13 +191,22 @@ library(MVA)
 # storeH22 <- scrape_statcast_savant_batter_all(start_date = "2015-09-20", end_date = "2015-09-28")
 # storeH23 <- scrape_statcast_savant_batter_all(start_date = "2015-09-29", end_date = "2015-10-05")
 # 
-#  all_pitches <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+#  all_pitches15 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
 #                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
 #                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
 #                       storeH21, storeH22, storeH23)
 # 
 # #Saving the very large dataset so I won't need to run the above code again
-#  save(all_pitches, file = "data/SavantPitch15.rda")
+#  save(all_pitches15, file = "data/SavantPitch15.rda")
+```
+
+
+```{r}
+load("data/SavantPitch19.rda")
+load("data/SavantPitch18.rda")
+load("data/SavantPitch17.rda")
+load("data/SavantPitch16.rda")
+load("data/SavantPitch15.rda")
 ```
 
 \newpage
