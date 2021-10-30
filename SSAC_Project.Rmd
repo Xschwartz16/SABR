@@ -31,12 +31,11 @@ library(GGally)
 library(baseballr)
 library(MVA)
 library(stringr)
-
 ```
 
 # Data Read In 
 ```{r eval=FALSE, include=FALSE}
-#Pitch By Pitch Savant Data
+# Pitch By Pitch Savant Data
 
 # storeH2 <- scrape_statcast_savant_batter_all(start_date = "2019-03-20", end_date = "2019-04-04")
 # storeH3 <- scrape_statcast_savant_batter_all(start_date = "2019-04-05", end_date = "2019-04-13")
@@ -60,12 +59,12 @@ library(stringr)
 # storeH21 <- scrape_statcast_savant_batter_all(start_date = "2019-09-11", end_date = "2019-09-19")
 # storeH22 <- scrape_statcast_savant_batter_all(start_date = "2019-09-20", end_date = "2019-09-28")
 # storeH23 <- scrape_statcast_savant_batter_all(start_date = "2019-09-29", end_date = "2019-10-05")
-# 
+#
 #  all_pitches19 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
 #                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
 #                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
 #                       storeH21, storeH22, storeH23)
-# 
+#
 # #Saving the very large dataset so I won't need to run the above code again
 #  save(all_pitches19, file = "data/SavantPitch19.rda")
 ```
@@ -92,7 +91,7 @@ library(stringr)
 # storeH21 <- scrape_statcast_savant_batter_all(start_date = "2018-09-11", end_date = "2018-09-19")
 # storeH22 <- scrape_statcast_savant_batter_all(start_date = "2018-09-20", end_date = "2018-09-28")
 # storeH23 <- scrape_statcast_savant_batter_all(start_date = "2018-09-29", end_date = "2018-10-05")
-# 
+#
 #  all_pitches18 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
 #                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
 #                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
@@ -123,7 +122,7 @@ library(stringr)
 # storeH21 <- scrape_statcast_savant_batter_all(start_date = "2017-09-11", end_date = "2017-09-19")
 # storeH22 <- scrape_statcast_savant_batter_all(start_date = "2017-09-20", end_date = "2017-09-28")
 # storeH23 <- scrape_statcast_savant_batter_all(start_date = "2017-09-29", end_date = "2017-10-05")
-# 
+#
 #  all_pitches17 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
 #                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
 #                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
@@ -154,7 +153,7 @@ library(stringr)
 # storeH21 <- scrape_statcast_savant_batter_all(start_date = "2016-09-11", end_date = "2016-09-19")
 # storeH22 <- scrape_statcast_savant_batter_all(start_date = "2016-09-20", end_date = "2016-09-28")
 # storeH23 <- scrape_statcast_savant_batter_all(start_date = "2016-09-29", end_date = "2016-10-05")
-# 
+#
 #  all_pitches16 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
 #                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
 #                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
@@ -185,98 +184,157 @@ library(stringr)
 # storeH21 <- scrape_statcast_savant_batter_all(start_date = "2015-09-11", end_date = "2015-09-19")
 # storeH22 <- scrape_statcast_savant_batter_all(start_date = "2015-09-20", end_date = "2015-09-28")
 # storeH23 <- scrape_statcast_savant_batter_all(start_date = "2015-09-29", end_date = "2015-10-05")
-# 
+#
 #  all_pitches15 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
 #                      storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
 #                       storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
 #                       storeH21, storeH22, storeH23)
-# 
+#
 # #Saving the very large dataset so I won't need to run the above code again
 #  save(all_pitches15, file = "data/SavantPitch15.rda")
 ```
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 #  load("data/SavantPitch19.rda")
 # load("data/SavantPitch18.rda")
 # load("data/SavantPitch17.rda")
 # load("data/SavantPitch16.rda")
 # load("data/SavantPitch15.rda")
 ```
-
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 # pitchers_2015 <- all_pitches15 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
-# 
+#
 # pitchers_2016 <-all_pitches16 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
-# 
+#
 # pitchers_2017 <- all_pitches17 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
-# 
+#
 # pitchers_2018 <- all_pitches18 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
-# 
+#
 # pitchers_2019 <- all_pitches19 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name)
-# 
+#
 # all_pitchers <- rbind(pitchers_2015,pitchers_2016,pitchers_2017,pitchers_2018,pitchers_2019)
 ```
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 # pitcher_info <- all_pitchers %>% group_by(pitcher, pitch_name,pitch_type) %>%
 #   summarise(count = n(), release_speed = mean(release_speed, na.rm=TRUE), release_pos_z = mean(release_pos_z, na.rm=TRUE), release_pos_x = mean(release_pos_x, na.rm=TRUE),release_spin_rate= mean(release_spin_rate, na.rm=TRUE)) %>% filter(count >= 100)%>%drop_na()
-# 
+#
 # save(pitcher_info, file = "data/pitcher_info.rda")
 ```
-
-
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 # all_pitches15 <- all_pitches15 %>%
 #   filter(!is.na(events)) %>%
 #   select(player_name, pitcher, batter, events) %>%
 #   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER")))))))) %>% mutate(year = 2015)
-# 
+#
 # all_pitches16 <- all_pitches16 %>%
 #   filter(!is.na(events)) %>%
 #   select(player_name, pitcher, batter, events) %>%
 #   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2016)
-# 
+#
 # all_pitches17 <- all_pitches17 %>%
 #   filter(!is.na(events)) %>%
 #   select(player_name, pitcher, batter, events) %>%
 #   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2017)
-# 
+#
 # all_pitches18 <- all_pitches18 %>%
 #   filter(!is.na(events)) %>%
 #   select(player_name, pitcher, batter, events) %>%
 #   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2018)
-# 
+#
 # all_pitches19 <- all_pitches19 %>%
 #   filter(!is.na(events)) %>%
 #   select(player_name, pitcher, batter, events) %>%
 #   mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2019)
-# 
+#
 # all_pitches <- rbind(all_pitches15,all_pitches16,all_pitches17,all_pitches18,all_pitches19)
 # save(all_pitches, file = "data/allPitches.rda")
+```
+
+```{r eval=FALSE, include=FALSE}
+
+# load("data/pitcher_info.rda")
+# 
+# pitcher_info <- pitcher_info %>%
+#   select(-pitch_type) 
+# 
+# table(pitcher_info$pitch_name)
+# 
+# pitcher_info <- pitcher_info %>%
+#   filter(pitch_name != "Eephus" & pitch_name != "Fastball" & pitch_name != "Forkball" & pitch_name != "Knuckleball" & pitch_name != "Screwball") %>%
+#   filter(pitcher != 607560) # This pitcher is screwing things up
+# 
+# pitcher_info <- pitcher_info %>%
+#   mutate(extension = ifelse(release_pos_x > 0, sqrt(release_pos_x^2 + release_pos_z^2), -sqrt(release_pos_x^2 + release_pos_z^2))) %>%
+#   select(-release_pos_x, -release_pos_z)
+# 
+# pitcher_pivoted <- pitcher_info %>%
+#   group_by(pitcher) %>%
+#   mutate(row = row_number()) %>%
+#   tidyr::pivot_wider(id_cols = pitcher, names_from = pitch_name, values_from = count:extension)
+# 
+# pitcher_pivoted[is.na(pitcher_pivoted)] <- 0
+# 
+# names(pitcher_pivoted) <- janitor::make_clean_names(names(pitcher_pivoted))
+```
+
+```{r eval=FALSE, include=FALSE}
+#  pitcher_pivoted <- pitcher_pivoted %>% rowwise() %>% mutate(
+#   total_pitches =
+#       count_2_seam_fastball +
+#       count_4_seam_fastball +
+#       count_changeup +
+#       count_slider +
+#       count_sinker +
+#       count_curveball +
+#       count_cutter +
+#       count_split_finger + count_knuckle_curve)
+# 
+# final_pitcher_data <- pitcher_pivoted %>% mutate(
+#     rate_knuckle_curve = count_knuckle_curve / total_pitches,
+#   rate_2_seam_fastball = count_2_seam_fastball / total_pitches,
+#   rate_4_seam_fastball = count_4_seam_fastball / total_pitches,
+#   rate_4_changeup = count_changeup / total_pitches,
+#   rate_slider = count_slider / total_pitches,
+#   rate_sinker = count_sinker / total_pitches,
+#   rate_curveball = count_curveball / total_pitches,
+#   rate_cutter = count_cutter / total_pitches,
+#   rate_split_finger = count_split_finger / total_pitches
+# ) %>% select(-count_knuckle_curve,-count_2_seam_fastball,-count_4_seam_fastball,-count_changeup,-count_slider,-count_sinker,-count_sinker,-count_curveball,-count_cutter,-count_split_finger, -total_pitches)
+# 
+# save(final_pitcher_data, file = "data/final_pitcher_data.rda")
+
 ```
 
 
 ```{r}
 load("data/allPitches.rda")
-load("data/pitcher_info.rda")
+load("data/final_pitcher_data.rda")
+ID_lookup <- baseballr::get_chadwick_lu()%>% filter(mlb_played_last>=2015) %>% mutate(name = paste(name_first, name_last))%>% select(name, key_mlbam)
 ```
 
-```{r, message=FALSE}
-pitcher_info_2019 <- read_csv("data/pitching_data_2019.csv")
-pitcher_info_2018 <- read_csv("data/pitching_data_2018.csv")
-pitcher_info_2017 <- read_csv("data/pitching_data_2017.csv")
-pitcher_info_2016 <- read_csv("data/pitching_data_2016.csv")
-pitcher_info_2015 <- read_csv("data/pitching_data_2015.csv")
+### Cluster Analysis
+```{r}
+fviz_nbclust(final_pitcher_data[c(2:37)], kmeans, method = "wss", k.max = 30) +
+  ggtitle("How Many Clusters")
+```
 
-all_pitcher_info <- rbind(pitcher_info_2019,pitcher_info_2018,pitcher_info_2017,pitcher_info_2016,pitcher_info_2015)
+I will keep six clusters and use Ward's Method to determine my clusters. I will keep six clusters as there appears to be a plateau after six. 
+
+```{r}
+# Using Wards Method to Create my Clusters
+kc.dist <- dist(scale(final_pitcher_data[c(2:37)]))
+hcward <- hclust(kc.dist, method = "ward.D")
+plot(hcward, cex = 0.7)
 ```
 
 ```{r}
+# Extra Wrangling
+wardSol <- (cutree(hcward, k = 27))
 
+cluster_pitcher_data <- cbind(final_pitcher_data, wardSol)
+(table(cluster_pitcher_data$wardSol))
+
+cluster_pitcher_data <- left_join(cluster_pitcher_data, ID_lookup, by = c("pitcher" = "key_mlbam"))
 ```
-
 
 
 \newpage
@@ -290,8 +348,6 @@ In my study, I hope to look at Major League Baseball Pitchers and see if I can u
 \newpage
 
 ## Preliminary Analysis
-
-My data comes from Major League Baseball's "BaseballSavant" Website. My data includes an observation for each pitcher with at least 100 plate appearances for every year since 2015 (each year for each player is a different observation) who throws at least one pitch in 3 different categories.(BaseballSavant, 2020) This leaves us with 2,498 observations. For each player, I am mainly looking at 3 different pitch types: "fastball," "breaking ball," and "offspeed." (BaseballSavant, 2020) For each pitch category I am looking at four statistics: the rate at which the pitch is thrown, the average speed of the pitch (mph), the average spin of the pitch (rpm/rotations per minute), and the average break of the pitch (inches) for a total of twelve variables. I left out the rate for offspeed, as it is already in the data through the other rates (1-other rates = offspeed rate) (BaseballSavant, 2020) I also have some other statistics that look at the overall quality of the pitcher (era, woba, and exit velocity average). These will be used at the end of my analysis to see if my work accurately finds meaningful patterns of pitcher quality (i.e. if I clustered the pitchers, would certain clusters have a higher average quality?). 
 
 ### General Terms
 
@@ -316,340 +372,6 @@ ERA: ERA, or Earned Run Average, is a measure of how many runs are allowed by a 
 wOBA: wOBA, or weighted On Base Average is a measure of how many hits (weighted by type of hit) a piker gives up each plate appearance. Lower is better (for pitchers). 
 Exit Velocity: Exit velocity is a measure of how hard the ball is hit on average. A harder hit ball is bad for the pitcher. 
 
-```{r, include=FALSE}
-# read-in command
-
-mydata <- read.csv("/Users/XanderPA/Desktop/Old Amherst /Data Analysis/Project/DataAnalysisPitching2.csv",
-  header = TRUE
-)
-```
-### Data Wrangling
-```{r}
-# Renaming Columns
-fullData <- mydata %>% drop_na()
-
-fullPitchers <- fullData %>%
-  rename("fbRate" = n_fastball_formatted) %>%
-  rename("fbSpin" = fastball_avg_spin) %>%
-  rename("fbSpeed" = fastball_avg_speed) %>%
-  rename("fbBreak" = fastball_avg_break) %>%
-  rename("bbRate" = n_breaking_formatted) %>%
-  rename("bbSpin" = breaking_avg_spin) %>%
-  rename("bbBreak" = breaking_avg_break) %>%
-  rename("bbSpeed" = breaking_avg_speed) %>%
-  rename("offSpin" = offspeed_avg_spin) %>%
-  select(!n_offspeed_formatted) %>% 
-  rename("offSpeed" = offspeed_avg_speed) %>%
-  rename("offBreak" = offspeed_avg_break)
-
-glimpse(fullPitchers)
-
-head(fullPitchers, 5)
-```
-Everything seems to be in the correct format. 
-
-### Univariate Analysis
-
-```{r}
-# A quick look at the statistics for my dataset
-describe(fullPitchers)
-```
-
-
-```{r}
-# Checking for Outliers
-justRate <- fullPitchers %>% select(8, 12)
-justSpeed <- fullPitchers %>% select(9, 13, 16)
-justSpin <- fullPitchers %>% select(10, 14, 17)
-justBreak <- fullPitchers %>% select(11, 15, 18)
-boxplot(justRate, las = 2, main = "Boxplot of Rates of Pitches")
-boxplot(justSpin, las = 2, main = "Boxplot of Spin Rates of Pitches (rpm)")
-boxplot(justSpeed, las = 2, main = "Boxplot of Speed of Pitches (mph)")
-boxplot(justBreak, las = 2, main = "Boxplot of Break of Pitches (inches)")
-```
-
-There appear to be many univariate outliers, but that is to be expected. Baseball has always been a sport that has many outliers, particularly with a relatively low threshold for the dataset. Given that the threshold was only 100 plate appearances, this allowed for many more low-quality pitchers to be in the dataset (better pitchers tend to pitch more and a higher threshold would thus weed out worse pitchers). The downside of having a lower threshold is that there are more outliers, although I believe they should stay in the dataset. 
-
-
-### BiVariate Analysis
-
-```{r, fig.width=6, fig.height=4} 
-
-# More understandable version of GGGally
-pairs.panels(fullPitchers[c(8:18)],
-  density = TRUE,
-  ellipses = TRUE
-)
-```
-There are a wide variety of correlations, both positive and negative. Most variables seem relatively normal, although Breaking Ball Break and Breaking Ball Speed are somewhat skewed.
-```{r}
-bvbox(fullPitchers[8:9], main = "Analysis of Fastball Rate and Fastball Speed")
-bvbox(fullPitchers[10:11], main = "Analysis of Fastball Spin and Fastball Break")
-bvbox(fullPitchers[12:13], main = "Analysis of Breaking Ball Rate and Breaking Ball Speed")
-bvbox(fullPitchers[14:15], main = "Analysis of Breaking Ball Spin and Breaking Ball Break")
-bvbox(fullPitchers[17:18], main = "Analysis of Offspeed Spin and Offspeed Break")
-```
-
-
-There seem to be a wide variety of correlations and relationships in my data. The correlations are generally fairly low, although there are some clear relationships. There definitely are some bivariate outliers (I checked the relationships I assumed would be most meaningful), but once again, I don't believe that outliers need to be dealt with in some specific way with this data set, as the outliers are relatively expected and part of baseball. There is a subsection of pitchers who are extremely unique and removing them from the dataset would be a disservice to the overall study, as the unique players may have some commonalities that can be discovered and studied.  
-
-
-
-\newpage
-
-## Methods
-
-### Explanation of Methods
-
-#### PCA
-
-For my two methods, I will be using principal component analysis and factor analysis.
-
-Principal component analysis looks at an eigendecomposition of the covariance matrix of a dataset and attempts to reduce the number of dimensions (variables) in a dataset by reexpressing a high dimensional dataset into a lower-dimensional dataset. PCA hopes to capture the maximum variances of the higher dimensional data into the lower dimensional data in as few factors as possible. The output of PCA produces loadings that indicate what each lower-dimensional factor is made up of. In this study, we will hope to use PCA to reduce the dimensions of the 11 variables that make up the dataset. This will be used to more easily have an understanding of which variables have the most influence on the dataset and to simplify the overall number of variables. A scree plot can be used to help decide how many factors are worth keeping as if there is a large dropoff, followed by a flattening, that typically indicates that is a good place to finish dimensionality
-reduction, as you want to find the best combination of keeping variance but reducing variables.
-
-#### Clustering 
-
-In my analysis, I will be using clustering to attempt to separate similar groups of baseball pitchers into distinct categories. There are many ways to cluster, but in this study, we will be using Ward’s Method which is a type of agglomerative hierarchical clustering. This means that each observation starts as its own cluster and they are slowly merged into bigger clusters. This can be displayed on a dendrogram, which shows the “tree” of different clusters. Ward’s method uses the smallest within-cluster sum of squares values to find the groups with the minimum variance. Clustering can also use a scree plot to determine how many clusters should the data be grouped into, as like PCA, you want to find a balance of cluster strength but also large, meaningful clusters. Finally, a cluster’s strength can be measured using the silhouette coefficient.
-
-\newpage
-
-## Results
-
-### PCA Analysis
-```{r}
-set.seed(123)
-
-myPCA1 <- princomp(scale(fullPitchers[c(8:18)]), cor = TRUE, scores = TRUE)
-summary(myPCA1)
-unclass(loadings(myPCA1))
-
-screeplot(myPCA1)
-```
-
-I would keep 4 Factors in my PCA, as there seems to be a steep drop-off in the proportion of variance found after the first four. This also satisfies Kaiser's Rule, which requires us to retain PCs with eigenvalues larger than 1. The first four PCs satisfy this condition, as their standard deviations (which are square roots of the
-eigenvalues) are also larger than 1. Overall, This is not the most effective PCA as the cumulative proportion of variance is only .72 after four variables, but it can still be useful. Some thoughts on the first four components: 
-
-The first component seems heavily weighted negatively by the three speeds. The only strong positive output would be the break on breaking balls. 
-
-The second component seems heavily weighted negatively by the three spin rates. The only positive weights of note are fastball speed, breaking ball speed, and fastball break. 
-
-The third component has the strongest loading of the four components in fastball rate and has a large negative loading in breaking ball rate. 
-
-The fourth component has a large negative loading on fastball break, offspeed spin, and offspeed break, with a positive loading on offspeed pitch speed. 
-
-Overall, while keeping just four factors does not cover a major amount of the variance, it does seem to account for almost every variable is accounted for with a large loading (at least .38 or -.38) in one of the first four factors. This indicates that while the PCA might not be the most effective, it may be able to tell us something about our data. 
-
-### Cluster Analysis
-```{r}
-fviz_nbclust(fullPitchers[c(8:18)], kmeans, method = "wss", k.max = 10) +
-  ggtitle("How Many Clusters")
-```
-
-I will keep six clusters and use Ward's Method to determine my clusters. I will keep six clusters as there appears to be a plateau after six. 
-
-```{r}
-# Using Wards Method to Create my Clusters
-kc.dist <- dist(scale(fullPitchers[c(8:18)]))
-hcward <- hclust(kc.dist, method = "ward.D")
-plot(hcward, cex = 0.7)
-```
-
-```{r}
-# Extra Wrangling
-wardSol <- (cutree(hcward, h = 25))
-
-fullPitchers <- fullPitchers %>% mutate(Cluster = wardSol)
-quickPitchers <- fullPitchers %>% select(1:3, 19, 7)
-(table(quickPitchers$Cluster))
-cluster6 <- fullPitchers %>% filter(Cluster == 73)
-
-```
-
-
-
-
-
-```{r}
-cluster1 <- fullPitchers %>% filter(Cluster == 1)
-cluster2 <- fullPitchers %>% filter(Cluster == 2)
-cluster3 <- fullPitchers %>% filter(Cluster == 3)
-cluster4 <- fullPitchers %>% filter(Cluster == 4)
-cluster5 <- fullPitchers %>% filter(Cluster == 5)
-cluster6 <- fullPitchers %>% filter(Cluster == 17)
-```
-
-```{r}
-# Silhouette Values
-my.dist.scale <- dist(scale(fullPitchers[c(8:18)]))
-attempt2 <- silhouette(fullPitchers$Cluster, my.dist.scale)
-summary(attempt2)
-summary(attempt2)$avg.width
-```
-Very low silhouette values. Does not indicate strong clusters. 
-
-
-```{r}
-ggplot(fullPitchers, aes(y = fbSpeed)) +
-  geom_boxplot() +
-  facet_grid(. ~ Cluster)
-ggplot(fullPitchers, aes(y = bbSpeed)) +
-  geom_boxplot() +
-  facet_grid(. ~ Cluster)
-ggplot(fullPitchers, aes(y = offSpeed)) +
-  geom_boxplot() +
-  facet_grid(. ~ Cluster)
-
-ggplot(fullPitchers, aes(y = fbSpin)) +
-  geom_boxplot() +
-  facet_grid(. ~ Cluster)
-ggplot(fullPitchers, aes(y = bbSpin)) +
-  geom_boxplot() +
-  facet_grid(. ~ Cluster)
-ggplot(fullPitchers, aes(y = offSpin)) +
-  geom_boxplot() +
-  facet_grid(. ~ Cluster)
-```
-
-Some quick generalizations about each cluster: 
-
-1: Fast throwing. High spin rates.
-
-2: Slow throwing. Low spin rates.
-
-3: Fast throwing. Low spin rates.
-
-4: Mid-Fast Throwing. Mid-High spin rates. 
-
-5: Slow throwing. Mid-High spin rates. 
-
-6: Slow throwing. Mid-High spin rates. 
-
-\newpage
-
-### More Analysis
-
-```{r}
-# for clearer graph
-plot(myPCA1$scores[, 1:2],
-  type = "n", xlab = "PC1", ylab = "PC2",
-  main = "Ward's Cluster solution" 
-)
-
-
-text(myPCA1$scores[, 1:2], labels = wardSol, cex = 0.6)
-
-loadings(myPCA1)
-
-ggplot(fullPitchers, aes(x = fbSpeed, y = bbSpin,label=as.factor(Cluster), col = as.factor(Cluster) ))+geom_text(aes(label=as.factor(Cluster)),hjust=0, vjust=0)+xlab("Average Fastball Velocity (mph)") + ylab("Average Breaking Ball Spin Rate (rpm)")+ theme(legend.position = "none")+labs(title = "Analysis of Fastball Velocity and Breaking Ball Spin Rate by Cluster")
-```
-
-The clusters and PCA seem to produce similar results. You can clearly see groupings of each cluster, although cluster five seems to get lost in the middle group. 
-
-```{r}
-# for clearer graph
-plot(myPCA1$scores[, 3:4], type = "n", xlab = "PC3", ylab = "PC4", main = "Ward's Cluster solution")
-text(myPCA1$scores[, 3:4], labels = wardSol, cex = 0.6)
-
-
-loadings(myPCA1)
-```
-An analysis of the third and fourth components is less clear. Clusters three and two seem to be more scattered, whereas one, four, five, and six seem fairly well defined. Perhaps a deeper analysis of the clusters will help to explain why this is true. 
-
-
-```{r, fig.width=6, fig.height=4} 
-# Labels are player ID/row number
-biplot(myPCA1)
-```
-
-Fastball rate stands out as having an opposite direction to many of the other variables. 
-
-```{r}
-
-favstats(era ~ wardSol, data = fullPitchers)
-favstats(woba ~ wardSol, data = fullPitchers)
-favstats(exit_velocity_avg ~ wardSol, data = fullPitchers)
-```
-The clusters are of somewhat uneven sizes (cluster 3 is about twice as big as 1,4 and,5). There are pretty sizable gaps in ERA between the clusters. Clusters one and four are dramatically better than the other clusters (a low era is good). This is also true of woba (low is once again good), where clusters one and four are the best. It's important to note however that all clusters are not clearly differentiable. The best/Q1 of cluster six (which appears to have the worst pitchers on average) are still better than the average of cluster 1. There seems to be very little change in exit velocity allowed between the different clusters. 
-
-
-```{r}
-# A look to see how era was distributed by cluster.
-ggplot(data = fullPitchers, aes(x = era, col = as.factor(wardSol))) +
-  geom_histogram() +
-  ggtitle("ERA Distribution by Cluster")
-```
-
-
-#### More Detailed Thoughts On Clusters
-
-```{r}
-describe(cluster1[5:18])
-```
-
-Cluster one: Of the clusters, these are the best pitchers. They throw the hardest and have among the highest spin rates on all their pitches. Their breaking balls do not break dramatically, indicating more usage of sliders than curveballs. They have pretty normal rates at which they throw their pitches. Notable cluster one pitchers include Max Scherzer†, Gerrit Cole†, Jake Arrieta†, Blake Snell†, and Justin Verlander†.
-```{r}
-describe(cluster2[5:18])
-```
-Cluster two: These pitchers throw the slowest with high rates of offspeed pitches. Despite using them the most, their offspeed pitches have among the lowest speeds and spin rates. These pitchers also have a high break on their breaking balls which indicates more curveball usage. Despite this, they have a middling overall skill level which indicates that there is probably some underlying variable that makes these pitchers better despite their pitches not always being the best, such as the best ability to control their pitches and throw them where they want to. Notable pitchers include Dallas Keuchal†, Kyle Hendricks†, Max Fried, Hyun Jin Ryu, and Aaron Nola. 
-```{r}
-describe(cluster3[5:18])
-```
-Cluster three: Like cluster two, these pitchers are notable for having a high rate of offspeed pitches, but they throw their pitches much faster and are more likely to use sliders. Cluster three does not appear to have any statistics at which they stand out, although they have among the lowest spin rates. They are not the best or the worst at anything. In terms of results, these pitchers seem to be very average across the board. Although I do not have a scientific way of measuring this, cluster three seems to be made up of more relievers than the other clusters. Interestingly, this is by far the biggest cluster. Notable cluster three pitchers include Josh Hader, James Paxton, Luis Castillo, Johnny Cueto, and Kirby Yates. 
-```{r}
-describe(cluster4[5:18])
-```
-Cluster four: Cluster four is clearly the second-best cluster behind cluster 1. These pitchers stand out for having among the highest spin rates in every type of pitch, and that they pitch at relatively high speeds. Notably, cluster four pitchers throw breaking balls at by far the highest rate of all the clusters (40.9%). These pitchers seem to thrive on having really high-quality pitches (high spin), even if they don't throw them the fastest. Notable cluster four pitchers include Shane Bieber†, Jacob deGrom†, Corey Kluber†, Luis Severino, and Madison Bumgarner. 
-```{r}
-describe(cluster5[5:18])
-```
-Cluster five: These pitchers are once again somewhat average. Their overall quality is average, and as is the quality and speed of their pitches for the most part. Cluster five pitchers tend to be fastball first pitches, throwing fastballs at the highest rates (despite middling speed) and breaking balls at the lowest rate. If they throw a breaking ball, it tends to be a curveball, as evidenced by the high break, but they do have the highest spin rate on their curveball. Notable cluster five pitchers include Trevor Bauer†, Stephen Strasburg, Yu Darvish, Charlie Morton, and Marcus Stroman. 
-```{r}
-describe(cluster6[5:18])
-```
-Cluster Six: This cluster seems to contain the on average worst pitchers. They have among the lowest spin rates and do not have good speed on their pitches. They throw breaking balls at among the highest rates, but their spin rate is not good. They do not seem to clearly throw just sliders or curveballs, as their breaking ball break is in the middle. Their pitches all seem to be outliers in terms of how they break, which perhaps means these pitchers have more unique pitching styles and/or motions. Notable cluster six pitchers include Clayton Kershaw†, Chris Sale, Mike Clevinger, Patrick Corbin, and Zack Greinke. 
-
-
-† Indicates having won a Cy-Young Award which is given to the two best pitchers (one in each league) at the end of each season.
-
-
-\newpage
-
-## Conclusion 
-
-Overall, I found that my PCA and clustering produced lackluster statistical results but meaningful baseball results. Both PCA and clustering produced results that were not strong - PCA needed many variables to properly account for the variance and clustering produced clusters that were not particularly strongly grouped, as evidenced by the low silhouette coefficients. However, after digging deeper into some of the numbers, the clustering, in particular, produced results that clearly distinguished different types of pitchers. As a baseball fan, I could see clear commonalities among the pitchers in each cluster, even if the numbers were not always particularly clear. If I were to expand upon this study in the future, I would like to cross reference my results with hitters. I would like to answer the question "are there certain hitters who thrive against one cluster of pitchers, and do poorly against another?" Before conducting this study, I hoped to find whether I could use these methods to answer the question of "is a certain type of baseball pitcher the best?" While my analysis showed small differences in the types of baseball pitchers (cluster one was on average much better than cluster six, but there are plenty of cluster six pitchers who were better than cluster one pitchers), it is clear that there is not one prototype of baseball pitcher that will always be the best. Even if that is the less interesting answer, it serves as a reminder that anyone in baseball can succeed, but that certain traits are more often successful. 
-
-
-\newpage
-
-## Citations
-
- Major League Baseball. “Baseball Savant: Trending MLB Players, Statcast and Visualizations.” Baseballsavant.com, 28 Oct. 2020, baseballsavant.mlb.com/. 
- 
- 
-
-
-
-```{r}
-load("/Users/XanderPA/Desktop/Old Amherst /Competition Stats/Final Project/files/individualpitches.rds")
-```
-
-
-```{r}
-events <- all_pitches %>%
-  filter(!is.na(events)) %>%
-  select(player_name, pitcher, batter, events) %>%
-  mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))
-
-
-```
-
-```{r}
-events <- events %>%
-  filter(Result == "double" | Result == "triple" | Result == "home run" | Result == "out" | Result == "single") %>%
-  mutate(isHit = ifelse(Result == "out", 0, 1))
-
-```
 
 
 ```{r}
@@ -706,72 +428,69 @@ combinedData <- left_join(events, leader_BA, by = c("batter" = "player_id"))
 leader_BA_Pit <- leader_BA %>% select(first_name, last_name, year, player_id, ba, pa)
 combinedData2 <- left_join(combinedData, leader_BA_Pit, by = c("pitcher" = "player_id"))
 
-fullPitchers <- fullPitchers %>% mutate(first_name = trimws(first_name))
 
-allData <- left_join(combinedData2, fullPitchers, by = c("last_name.y" = "last_name", "year.y" = "year", "first_name.y" = "first_name"), ) %>% filter(!is.na(Cluster))
+leader_with_cluster <- left_join(combinedData2, cluster_pitcher_data) %>% filter(!is.na(wardSol))
 ```
 
 
 ```{r}
-groupBatterPitcher <- allData %>%
-  group_by(first_name.x, first_name.y, last_name.x, last_name.y) %>%
+groupBatterPitcher <- leader_with_cluster %>%
+  group_by(pitcher, batter) %>%
   summarise(P_AB = n())
-groupBatterPitcherHits <- allData %>%
-  group_by(first_name.x, first_name.y, last_name.x, last_name.y) %>%
+groupBatterPitcherHits <- leader_with_cluster %>%
+  group_by(batter, pitcher) %>%
   summarise(P_Hits = sum(isHit))
 
 pitcherCombo <- inner_join(groupBatterPitcherHits, groupBatterPitcher)
 
-allData <- inner_join(allData, pitcherCombo)
+all_info <- inner_join(leader_with_cluster, pitcherCombo)
 
-groupBatterCluster <- allData %>%
-  group_by(first_name.x, , last_name.x, Cluster) %>%
+groupBatterCluster <- all_info %>%
+  group_by(batter, wardSol) %>%
   summarise(C_AB = n())
-groupBatterClusterHits <- allData %>%
-  group_by(first_name.x, , last_name.x, Cluster) %>%
+groupBatterClusterHits <- all_info %>%
+  group_by(batter, wardSol) %>%
   summarise(C_Hits = sum(isHit))
 
 clusterCombo <- inner_join(groupBatterClusterHits, groupBatterCluster)
 
-allData <- inner_join(allData, clusterCombo)
+all_info_cluster <- inner_join(all_info, clusterCombo)
 ```
 
 
 ```{r}
-filteredData <- allData %>% filter(P_AB > 5 & C_AB > 5)
+filteredData <- all_info_cluster %>% filter(P_AB > 5 & C_AB > 5) %>% drop_na()
 
 options(scipen = 10000)
 
-#so it doesn't know the result of this AB
-filteredData <- filteredData%>% mutate(P_AB = P_AB-1)%>% mutate(C_AB = C_AB-1)%>% mutate(P_Hits = P_Hits-isHit)%>% mutate(C_Hits = C_Hits-isHit)
+# so it doesn't know the result of this AB
+filteredData <- filteredData %>%
+  mutate(P_AB = P_AB - 1) %>%
+  mutate(C_AB = C_AB - 1) %>%
+  mutate(P_Hits = P_Hits - isHit) %>%
+  mutate(C_Hits = C_Hits - isHit)
 
-filteredData <- filteredData%>% mutate(P_AVG = P_Hits/P_AB)%>% mutate(C_AVG = C_Hits/C_AB)
-simpleMod <- glm(isHit ~ ba.x + ba.y , data = filteredData, family = "binomial")
+filteredData <- filteredData %>%
+  mutate(P_AVG = P_Hits / P_AB) %>%
+  mutate(C_AVG = C_Hits / C_AB)
+simpleMod <- glm(isHit ~ ba.x + ba.y, data = filteredData, family = "binomial")
 pitcherMod <- glm(isHit ~ ba.x + ba.y + P_AB * P_Hits:P_AVG, data = filteredData, family = "binomial")
 pitcherMod
-clusterMod <- glm(isHit ~ ba.x + ba.y + C_AB * C_Hits*C_AVG, data = filteredData, family = "binomial")
-bothMod <- glm(isHit ~ ba.x + ba.y + C_AB * C_Hits:C_AVG+ P_AB * P_Hits:P_AVG, data = filteredData, family = "binomial")
+clusterMod <- glm(isHit ~ ba.x + ba.y + C_AB * C_Hits * C_AVG, data = filteredData, family = "binomial")
+bothMod <- glm(isHit ~ ba.x + ba.y + C_AB * C_Hits*C_AVG + P_AB * P_Hits*P_AVG, data = filteredData, family = "binomial")
 clusterMod
 ```
 
 
 ```{r}
 anova(simpleMod, clusterMod, test = "LR")
-anova( clusterMod, test = "LR")
-
-library(ResourceSelection)
-hoslem.test(x = filteredData$isHit,y=fitted(clusterMod), g=9)
-hoslem.test(x = filteredData$isHit,y=fitted(bothMod))
-hoslem.test(x = filteredData$isHit,y=fitted(pitcherMod))
-
-
-
-
+anova(simpleMod, pitcherMod, test = "LR")
+anova(clusterMod, bothMod, test = "LR")
 ```
 
 
 ```{r}
-allData <- filteredData %>%
+predicted_data <- filteredData %>%
   mutate(isHitP = predict(pitcherMod, filteredData, type = "response")) %>%
   mutate(isHitC = predict(clusterMod, filteredData, type = "response")) %>%
   mutate(isHitBoth = predict(bothMod, filteredData, type = "response"))
@@ -786,7 +505,7 @@ table(filteredData$events)
 
 ```{r}
 set.seed(5)
-testSamp <- sample(allData,5000)
+testSamp <- sample(allData, 5000)
 
 sum(testSamp$isHit)
 sum(testSamp$isHitC)
@@ -795,16 +514,20 @@ sum(testSamp$isHitP)
 
 
 ```{r}
-ggplot(allData, aes(x=isHitC, col = as.factor(isHit))) + 
+ggplot(allData, aes(x = isHitC, col = as.factor(isHit))) +
   geom_histogram(binwidth = .01) +
-  xlim(.175,.4)+xlab("Predicted Batting Average Via Clustering")+ scale_color_discrete(labels=c("Out","Hit"))+ labs(color = "Actual Result")
-ggplot(allData, aes(x=isHitP, col = as.factor(isHit))) + 
+  xlim(.175, .4) +
+  xlab("Predicted Batting Average Via Clustering") +
+  scale_color_discrete(labels = c("Out", "Hit")) +
+  labs(color = "Actual Result")
+ggplot(allData, aes(x = isHitP, col = as.factor(isHit))) +
   geom_histogram(binwidth = .01) +
-  xlim(.175,.4)+xlab("Predicted Batting Average Via Clustering")+ scale_color_discrete(labels=c("Out","Hit"))+ labs(color = "Actual Result")
+  xlim(.175, .4) +
+  xlab("Predicted Batting Average Via Clustering") +
+  scale_color_discrete(labels = c("Out", "Hit")) +
+  labs(color = "Actual Result")
 
-rbind(describe(x = allData$isHitP),describe(x = allData$isHitC))
-
-
+rbind(describe(x = allData$isHitP), describe(x = allData$isHitC))
 ```
 
 
