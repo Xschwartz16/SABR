@@ -252,27 +252,27 @@ library(stringr)
 ```{r eval=FALSE, include=FALSE}
 
 # load("data/pitcher_info.rda")
-# 
+#
 # pitcher_info <- pitcher_info %>%
-#   select(-pitch_type) 
-# 
+#   select(-pitch_type)
+#
 # table(pitcher_info$pitch_name)
-# 
+#
 # pitcher_info <- pitcher_info %>%
 #   filter(pitch_name != "Eephus" & pitch_name != "Fastball" & pitch_name != "Forkball" & pitch_name != "Knuckleball" & pitch_name != "Screwball") %>%
 #   filter(pitcher != 607560) # This pitcher is screwing things up
-# 
+#
 # pitcher_info <- pitcher_info %>%
 #   mutate(extension = ifelse(release_pos_x > 0, sqrt(release_pos_x^2 + release_pos_z^2), -sqrt(release_pos_x^2 + release_pos_z^2))) %>%
 #   select(-release_pos_x, -release_pos_z)
-# 
+#
 # pitcher_pivoted <- pitcher_info %>%
 #   group_by(pitcher) %>%
 #   mutate(row = row_number()) %>%
 #   tidyr::pivot_wider(id_cols = pitcher, names_from = pitch_name, values_from = count:extension)
-# 
+#
 # pitcher_pivoted[is.na(pitcher_pivoted)] <- 0
-# 
+#
 # names(pitcher_pivoted) <- janitor::make_clean_names(names(pitcher_pivoted))
 ```
 
@@ -287,7 +287,7 @@ library(stringr)
 #       count_curveball +
 #       count_cutter +
 #       count_split_finger + count_knuckle_curve)
-# 
+#
 # final_pitcher_data <- pitcher_pivoted %>% mutate(
 #     rate_knuckle_curve = count_knuckle_curve / total_pitches,
 #   rate_2_seam_fastball = count_2_seam_fastball / total_pitches,
@@ -299,80 +299,24 @@ library(stringr)
 #   rate_cutter = count_cutter / total_pitches,
 #   rate_split_finger = count_split_finger / total_pitches
 # ) %>% select(-count_knuckle_curve,-count_2_seam_fastball,-count_4_seam_fastball,-count_changeup,-count_slider,-count_sinker,-count_sinker,-count_curveball,-count_cutter,-count_split_finger, -total_pitches)
-# 
+#
 # save(final_pitcher_data, file = "data/final_pitcher_data.rda")
-
 ```
 
 
 ```{r}
 load("data/allPitches.rda")
 load("data/final_pitcher_data.rda")
-ID_lookup <- baseballr::get_chadwick_lu()%>% filter(mlb_played_last>=2015) %>% mutate(name = paste(name_first, name_last))%>% select(name, key_mlbam)
 ```
 
-### Cluster Analysis
-```{r}
-fviz_nbclust(final_pitcher_data[c(2:37)], kmeans, method = "wss", k.max = 30) +
-  ggtitle("How Many Clusters")
-```
-
-I will keep six clusters and use Ward's Method to determine my clusters. I will keep six clusters as there appears to be a plateau after six. 
 
 ```{r}
-# Using Wards Method to Create my Clusters
-kc.dist <- dist(scale(final_pitcher_data[c(2:37)]))
-hcward <- hclust(kc.dist, method = "ward.D")
-plot(hcward, cex = 0.7)
+ID_lookup <- baseballr::get_chadwick_lu() %>%
+  filter(mlb_played_last >= 2015) %>%
+  mutate(name = paste(name_first, name_last)) %>%
+  select(name, key_mlbam)
+
 ```
-
-```{r}
-# Extra Wrangling
-wardSol <- (cutree(hcward, k = 27))
-
-cluster_pitcher_data <- cbind(final_pitcher_data, wardSol)
-(table(cluster_pitcher_data$wardSol))
-
-cluster_pitcher_data <- left_join(cluster_pitcher_data, ID_lookup, by = c("pitcher" = "key_mlbam"))
-```
-
-
-\newpage
-
-
-## Introduction
-
-In my study, I hope to look at Major League Baseball Pitchers and see if I can use PCA and Clustering, to predict outcomes in Major League Baseball. Each pitcher throws a mix of pitches at different rates, speeds, and movements. I hope to study whether I can more accurately predict baseball results by finding similarities between pitchers in these statistics. For example, if I find that pitcher A and pitcher B have similar profiles through PCA and Clustering, does that mean that the pitchers will have similar results? Do the best pitchers in baseball have similar profiles? Clustering will be used to help group similar pitchers together, and PCA will be used to understand the similarities and differences of the clusters. Overall, I hope that this study can be a step forward in understanding what the defining traits and skills are of a baseball pitcher's quality.
-
-
-\newpage
-
-## Preliminary Analysis
-
-### General Terms
-
-While this is a study designed for a general audience, understanding some baseball terminology could be useful. A few terms/parts of the data that might be helpful to understand throughout the project. 
-
-Fastball: A fastball is generally the most basic pitch in baseball. Fastballs are generally thrown the most and the fastest. 
-
-Breaking Ball: A breaking ball is usually a pitch that moves the most in baseball. There are two main types: sliders and curveballs. Sliders are thrown faster and break less (more horizontal movement than vertical). Curveballs are thrown slower and have more vertical movement. 
-
-Offspeed: Offspeed pitches are designed to look like fastballs but are thrown slower. This is meant to throw off a hitter's timing, so they swing too early. 
-
-Spin Rate: Spin rate is a measure of how often a ball spins during the time it is thrown to the plate. Spin rate is generally a measure of the quality of a pitch.
-
-Break: Break is a measure of how much the ball moves in it's journey to the plate (horizontally or vertically). 
-
-Starter: A starter is a pitcher who pitches once every five days, but pitches the most in total quantity. 
-
-Reliever: A reliever is a pitcher who pitches frequently but for less time (fewer innings). 
-
-ERA: ERA, or Earned Run Average, is a measure of how many runs are allowed by a pitcher every nine innings. Lower is better. 
-
-wOBA: wOBA, or weighted On Base Average is a measure of how many hits (weighted by type of hit) a piker gives up each plate appearance. Lower is better (for pitchers). 
-Exit Velocity: Exit velocity is a measure of how hard the ball is hit on average. A harder hit ball is bad for the pitcher. 
-
-
 
 ```{r}
 leader_BA <- scrape_savant_leaderboards(
@@ -422,6 +366,7 @@ leader_BA_Pit <- scrape_savant_leaderboards(
   hand = ""
 )
 ```
+
 ```{r}
 leader_BA <- leader_BA %>% select(first_name, last_name, year, player_id, ba, pa)
 combinedData <- left_join(events, leader_BA, by = c("batter" = "player_id"))
@@ -431,6 +376,64 @@ combinedData2 <- left_join(combinedData, leader_BA_Pit, by = c("pitcher" = "play
 
 leader_with_cluster <- left_join(combinedData2, cluster_pitcher_data) %>% filter(!is.na(wardSol))
 ```
+
+
+# Creating Clusters
+```{r}
+fviz_nbclust(final_pitcher_data[c(2:37)], kmeans, method = "wss", k.max = 30) +
+  ggtitle("How Many Clusters")
+```
+
+I will keep 27 clusters and use Ward's Method to determine my clusters. I will keep 27 clusters as there appears to be a plateau after 27.
+
+```{r}
+# Using Wards Method to Create my Clusters
+kc.dist <- dist(scale(final_pitcher_data[c(2:37)]))
+hcward <- hclust(kc.dist, method = "ward.D")
+plot(hcward, cex = 0.7)
+```
+
+```{r}
+# Extra Wrangling
+wardSol <- (cutree(hcward, k = 27))
+
+cluster_pitcher_data <- cbind(final_pitcher_data, wardSol)
+(table(cluster_pitcher_data$wardSol))
+
+cluster_pitcher_data <- left_join(cluster_pitcher_data, ID_lookup, by = c("pitcher" = "key_mlbam"))
+```
+
+
+\newpage
+
+
+## Preliminary Analysis
+
+### General Terms
+
+While this is a study designed for a general audience, understanding some baseball terminology could be useful. A few terms/parts of the data that might be helpful to understand throughout the project. 
+
+Fastball: A fastball is generally the most basic pitch in baseball. Fastballs are generally thrown the most and the fastest. 
+
+Breaking Ball: A breaking ball is usually a pitch that moves the most in baseball. There are two main types: sliders and curveballs. Sliders are thrown faster and break less (more horizontal movement than vertical). Curveballs are thrown slower and have more vertical movement. 
+
+Offspeed: Offspeed pitches are designed to look like fastballs but are thrown slower. This is meant to throw off a hitter's timing, so they swing too early. 
+
+Spin Rate: Spin rate is a measure of how often a ball spins during the time it is thrown to the plate. Spin rate is generally a measure of the quality of a pitch.
+
+Break: Break is a measure of how much the ball moves in it's journey to the plate (horizontally or vertically). 
+
+Starter: A starter is a pitcher who pitches once every five days, but pitches the most in total quantity. 
+
+Reliever: A reliever is a pitcher who pitches frequently but for less time (fewer innings). 
+
+ERA: ERA, or Earned Run Average, is a measure of how many runs are allowed by a pitcher every nine innings. Lower is better. 
+
+wOBA: wOBA, or weighted On Base Average is a measure of how many hits (weighted by type of hit) a piker gives up each plate appearance. Lower is better (for pitchers). 
+Exit Velocity: Exit velocity is a measure of how hard the ball is hit on average. A harder hit ball is bad for the pitcher. 
+
+
+
 
 
 ```{r}
@@ -457,9 +460,12 @@ clusterCombo <- inner_join(groupBatterClusterHits, groupBatterCluster)
 all_info_cluster <- inner_join(all_info, clusterCombo)
 ```
 
+# Cluster Modeling
 
 ```{r}
-filteredData <- all_info_cluster %>% filter(P_AB > 5 & C_AB > 5) %>% drop_na()
+filteredData <- all_info_cluster %>%
+  filter(P_AB > 5 & C_AB > 5) %>%
+  drop_na()
 
 options(scipen = 10000)
 
@@ -477,7 +483,7 @@ simpleMod <- glm(isHit ~ ba.x + ba.y, data = filteredData, family = "binomial")
 pitcherMod <- glm(isHit ~ ba.x + ba.y + P_AB * P_Hits:P_AVG, data = filteredData, family = "binomial")
 pitcherMod
 clusterMod <- glm(isHit ~ ba.x + ba.y + C_AB * C_Hits * C_AVG, data = filteredData, family = "binomial")
-bothMod <- glm(isHit ~ ba.x + ba.y + C_AB * C_Hits*C_AVG + P_AB * P_Hits*P_AVG, data = filteredData, family = "binomial")
+bothMod <- glm(isHit ~ ba.x + ba.y + C_AB * C_Hits * C_AVG + P_AB * P_Hits * P_AVG, data = filteredData, family = "binomial")
 clusterMod
 ```
 
@@ -529,10 +535,6 @@ ggplot(allData, aes(x = isHitP, col = as.factor(isHit))) +
 
 rbind(describe(x = allData$isHitP), describe(x = allData$isHitC))
 ```
-
-
-
-
 
 
 `
