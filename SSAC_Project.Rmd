@@ -306,6 +306,7 @@ library(stringr)
 
 ```{r}
 load("data/allPitches.rda")
+
 load("data/final_pitcher_data.rda")
 ```
 
@@ -367,21 +368,13 @@ leader_BA_Pit <- scrape_savant_leaderboards(
 )
 ```
 
-```{r}
-leader_BA <- leader_BA %>% select(first_name, last_name, year, player_id, ba, pa)
-combinedData <- left_join(events, leader_BA, by = c("batter" = "player_id"))
-leader_BA_Pit <- leader_BA %>% select(first_name, last_name, year, player_id, ba, pa)
-combinedData2 <- left_join(combinedData, leader_BA_Pit, by = c("pitcher" = "player_id"))
 
-
-leader_with_cluster <- left_join(combinedData2, cluster_pitcher_data) %>% filter(!is.na(wardSol))
-```
 
 
 # Creating Clusters
 ```{r}
-fviz_nbclust(final_pitcher_data[c(2:37)], kmeans, method = "wss", k.max = 30) +
-  ggtitle("How Many Clusters")
+fviz_nbclust(final_pitcher_data[c(2:37)], kmeans, method = "wss", k.max = 100) +
+  ggtitle("How Many Clusters") 
 ```
 
 I will keep 27 clusters and use Ward's Method to determine my clusters. I will keep 27 clusters as there appears to be a plateau after 27.
@@ -395,7 +388,7 @@ plot(hcward, cex = 0.7)
 
 ```{r}
 # Extra Wrangling
-wardSol <- (cutree(hcward, k = 27))
+wardSol <- (cutree(hcward, k = 43))
 
 cluster_pitcher_data <- cbind(final_pitcher_data, wardSol)
 (table(cluster_pitcher_data$wardSol))
@@ -403,6 +396,148 @@ cluster_pitcher_data <- cbind(final_pitcher_data, wardSol)
 cluster_pitcher_data <- left_join(cluster_pitcher_data, ID_lookup, by = c("pitcher" = "key_mlbam"))
 ```
 
+```{r}
+
+
+get_other_pitchers <- function(pitcherName, data = cluster_pitcher_data)
+{
+ justPitcherCluster <- (data%>%filter(name == pitcherName))$wardSol
+ 
+ otherPitchers <- (data%>%filter(wardSol == justPitcherCluster))$name
+ 
+ return(otherPitchers)
+}
+get_other_pitchers("Chris Sale")
+
+getClusterPitchers <- function(cluster, data = cluster_pitcher_data)
+{
+  return((data%>%filter(wardSol == cluster))$name)
+}
+getClusterPitchers(25)
+```
+
+```{r}
+library(rpart.plot)
+library(rattle)
+library(parsnip)
+whichclass <- decision_tree(mode = "classification") %>%
+set_engine("rpart", control = rpart.control(cp = 0.005, minbucket = 30)) %>%
+fit(as.factor(wardSol) ~ ., data = cluster_pitcher_data%>%select(-pitcher,-name))
+whichclass$fit$call <- rlang::call2("rpar::rpart", data = expr(sim_data))
+prp(whichclass$fit)
+
+rattle::fancyRpartPlot(whichclass$fit)
+```
+
+
+```{r}
+clusterStats <- cluster_pitcher_data %>%
+  select(-pitcher,-name)%>% 
+group_by(wardSol) %>%
+summarise(across(everything(), mean), number_of_pitchers = n()) 
+```
+
+```{r}
+describeCluster <- function(cluster)
+{
+  thisCluster <- clusterStats %>% filter(wardSol == cluster)
+frequentPitches <-c()
+  occasionalPitches <- c()
+  
+  if(thisCluster$rate_sinker > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "sinker"
+  }else if(thisCluster$rate_sinker > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "sinker"
+  } 
+  
+   if(thisCluster$rate_split_finger > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "splitter"
+  }else if(thisCluster$rate_split_finger > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "splitter"
+  }  
+  
+  if(thisCluster$rate_4_changeup > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "changeup"
+  }else if(thisCluster$rate_4_changeup > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "changeup"
+  }  
+  
+  if(thisCluster$rate_4_seam_fastball > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "fastball"
+  }else if(thisCluster$rate_4_seam_fastball > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "fastball"
+  }  
+  if(thisCluster$rate_2_seam_fastball > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "2-seam"
+  }else if(thisCluster$rate_2_seam_fastball > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "2-seam"
+  }  
+  if(thisCluster$rate_curveball > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "curveball"
+  }else if(thisCluster$rate_curveball > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "curveball"
+  } 
+ if(thisCluster$extension_knuckle_curve > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "knuckle curve"
+  }else if(thisCluster$extension_knuckle_curve > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "knuckle curve"
+  } 
+   if(thisCluster$rate_slider > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "slider"
+  }else if(thisCluster$rate_slider > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "slider"
+  } 
+   if(thisCluster$rate_cutter > .2)
+  {
+    frequentPitches[length(frequentPitches)+1] <- "cutter"
+  }else if(thisCluster$rate_cutter > 0)
+  {
+    occasionalPitches[length(frequentPitches)+1] <- "cutter"
+  }
+    
+paste("Frequent Pitches of Cluster", cluster, ": ") 
+print(frequentPitches )    
+paste("Occasional Pitches of Cluster", cluster, ": ") 
+print(occasionalPitches )   
+  
+}
+
+```
+
+```{r}
+
+```
+
+
+
+
+```{r}
+leader_BA <- leader_BA %>% select(first_name, last_name, year, player_id, ba, pa)
+combinedData <- left_join(all_pitches, leader_BA, by = c("batter" = "player_id"))
+leader_BA_Pit <- leader_BA %>% select(first_name, last_name, year, player_id, ba, pa)
+combinedData2 <- left_join(combinedData, leader_BA_Pit, by = c("pitcher" = "player_id"))
+
+
+leader_with_cluster <- left_join(combinedData2, cluster_pitcher_data) %>% filter(!is.na(wardSol))  %>%
+  filter(Result == "double" | Result == "triple" | Result == "home run" | Result == "out" | Result == "single") %>%
+  mutate(isHit = ifelse(Result == "out", 0, 1))
+```
 
 \newpage
 
@@ -420,6 +555,8 @@ Breaking Ball: A breaking ball is usually a pitch that moves the most in basebal
 Offspeed: Offspeed pitches are designed to look like fastballs but are thrown slower. This is meant to throw off a hitter's timing, so they swing too early. 
 
 Spin Rate: Spin rate is a measure of how often a ball spins during the time it is thrown to the plate. Spin rate is generally a measure of the quality of a pitch.
+
+Extension: NEGATIVE IS RIGHTY
 
 Break: Break is a measure of how much the ball moves in it's journey to the plate (horizontally or vertically). 
 
@@ -503,15 +640,15 @@ predicted_data <- filteredData %>%
 ```
 
 ```{r}
-mean(filteredData$isHit)
-table(all_pitches$events)
-table(filteredData$events)
+mean(predicted_data$isHit)
+table(predicted_data$events)
+table(predicted_data$events)
 ```
 
 
 ```{r}
 set.seed(5)
-testSamp <- sample(allData, 5000)
+testSamp <- sample(predicted_data, 5000)
 
 sum(testSamp$isHit)
 sum(testSamp$isHitC)
@@ -520,20 +657,22 @@ sum(testSamp$isHitP)
 
 
 ```{r}
-ggplot(allData, aes(x = isHitC, col = as.factor(isHit))) +
-  geom_histogram(binwidth = .01) +
+c <- ggplot(predicted_data, aes(x = isHitC, fill = as.factor(isHit))) +
+   geom_density(alpha=.4)  +
   xlim(.175, .4) +
   xlab("Predicted Batting Average Via Clustering") +
   scale_color_discrete(labels = c("Out", "Hit")) +
   labs(color = "Actual Result")
-ggplot(allData, aes(x = isHitP, col = as.factor(isHit))) +
-  geom_histogram(binwidth = .01) +
+p <- ggplot(predicted_data, aes(x = isHitP, fill = as.factor(isHit))) +
+  geom_density(alpha=.4) +
   xlim(.175, .4) +
-  xlab("Predicted Batting Average Via Clustering") +
+  xlab("Predicted Batting Average Via Pitcher") +
   scale_color_discrete(labels = c("Out", "Hit")) +
   labs(color = "Actual Result")
 
-rbind(describe(x = allData$isHitP), describe(x = allData$isHitC))
+cowplot::plot_grid(c,p)
+
+rbind(describe(x = predicted_data$isHitP), describe(x = predicted_data$isHitC))
 ```
 
 
