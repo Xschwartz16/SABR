@@ -402,12 +402,14 @@ cluster_pitcher_data <- left_join(cluster_pitcher_data, ID_lookup, by = c("pitch
 get_other_pitchers <- function(pitcherName, data = cluster_pitcher_data)
 {
  justPitcherCluster <- (data%>%filter(name == pitcherName))$wardSol
+ print(justPitcherCluster)
  
  otherPitchers <- (data%>%filter(wardSol == justPitcherCluster))$name
  
  return(otherPitchers)
 }
 get_other_pitchers("Chris Sale")
+cluster33 <- cluster_pitcher_data%>%filter(wardSol == 33)
 
 getClusterPitchers <- function(cluster, data = cluster_pitcher_data)
 {
@@ -431,11 +433,22 @@ rattle::fancyRpartPlot(whichclass$fit)
 
 
 ```{r}
-clusterStats <- cluster_pitcher_data %>%
-  select(-pitcher,-name)%>% 
+clusterStats2 <- cluster_pitcher_data %>%
+  select(2:27,38)%>% 
+group_by(wardSol) %>%summarise_each(funs(mean(.[!is.na(.) & . != 0]))) 
+
+
+
+clusterStats3 <- cluster_pitcher_data %>%
+  select(28:38)%>% 
 group_by(wardSol) %>%
-summarise(across(everything(), mean), number_of_pitchers = n()) 
+summarise(across(everything(), mean),number_of_pitchers = n()) 
+
+clusterStats <- left_join(clusterStats2, clusterStats3)
+clusterStats[is.na(clusterStats)] = 0
 ```
+
+
 
 ```{r}
 describeCluster <- function(cluster)
@@ -449,7 +462,7 @@ frequentPitches <-c()
     frequentPitches[length(frequentPitches)+1] <- "sinker"
   }else if(thisCluster$rate_sinker > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "sinker"
+    occasionalPitches[length(occasionalPitches)+1] <- "sinker"
   } 
   
    if(thisCluster$rate_split_finger > .2)
@@ -457,7 +470,7 @@ frequentPitches <-c()
     frequentPitches[length(frequentPitches)+1] <- "splitter"
   }else if(thisCluster$rate_split_finger > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "splitter"
+    occasionalPitches[length(occasionalPitches)+1] <- "splitter"
   }  
   
   if(thisCluster$rate_4_changeup > .2)
@@ -465,7 +478,7 @@ frequentPitches <-c()
     frequentPitches[length(frequentPitches)+1] <- "changeup"
   }else if(thisCluster$rate_4_changeup > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "changeup"
+    occasionalPitches[length(occasionalPitches)+1] <- "changeup"
   }  
   
   if(thisCluster$rate_4_seam_fastball > .2)
@@ -473,55 +486,72 @@ frequentPitches <-c()
     frequentPitches[length(frequentPitches)+1] <- "fastball"
   }else if(thisCluster$rate_4_seam_fastball > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "fastball"
+    occasionalPitches[length(occasionalPitches)+1] <- "fastball"
   }  
   if(thisCluster$rate_2_seam_fastball > .2)
   {
     frequentPitches[length(frequentPitches)+1] <- "2-seam"
   }else if(thisCluster$rate_2_seam_fastball > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "2-seam"
+    occasionalPitches[length(occasionalPitches)+1] <- "2-seam"
   }  
   if(thisCluster$rate_curveball > .2)
   {
     frequentPitches[length(frequentPitches)+1] <- "curveball"
   }else if(thisCluster$rate_curveball > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "curveball"
+    occasionalPitches[length(occasionalPitches)+1] <- "curveball"
   } 
  if(thisCluster$extension_knuckle_curve > .2)
   {
     frequentPitches[length(frequentPitches)+1] <- "knuckle curve"
   }else if(thisCluster$extension_knuckle_curve > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "knuckle curve"
+    occasionalPitches[length(occasionalPitches)+1] <- "knuckle curve"
   } 
    if(thisCluster$rate_slider > .2)
   {
     frequentPitches[length(frequentPitches)+1] <- "slider"
   }else if(thisCluster$rate_slider > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "slider"
+    occasionalPitches[length(occasionalPitches)+1] <- "slider"
   } 
    if(thisCluster$rate_cutter > .2)
   {
     frequentPitches[length(frequentPitches)+1] <- "cutter"
   }else if(thisCluster$rate_cutter > 0)
   {
-    occasionalPitches[length(frequentPitches)+1] <- "cutter"
+    occasionalPitches[length(occasionalPitches)+1] <- "cutter"
   }
     
-paste("Frequent Pitches of Cluster", cluster, ": ") 
-print(frequentPitches )    
-paste("Occasional Pitches of Cluster", cluster, ": ") 
+print(paste("Frequent Pitches of Cluster", cluster, ":") )
+print(frequentPitches)    
+print(paste("Occasional Pitches of Cluster", cluster, ":"))
 print(occasionalPitches )   
+
+if(thisCluster$extension_2_seam_fastball >= 0 & thisCluster$extension_4_seam_fastball >= 0 & thisCluster$extension_changeup >= 0 & thisCluster$extension_slider >= 0 & thisCluster$extension_sinker >= 0 & thisCluster$extension_knuckle_curve >= 0 & thisCluster$extension_curveball >= 0 & thisCluster$extension_cutter >= 0 & thisCluster$extension_split_finger >= 0)
+{
+  print(paste("Cluster", cluster, " is ALL LEFTY"))
+} else if(thisCluster$extension_2_seam_fastball <= 0 & thisCluster$extension_4_seam_fastball <= 0 & thisCluster$extension_changeup <= 0 & thisCluster$extension_slider <= 0 & thisCluster$extension_sinker <= 0 & thisCluster$extension_knuckle_curve <= 0 & thisCluster$extension_curveball <= 0 & thisCluster$extension_cutter <= 0 & thisCluster$extension_split_finger <= 0) {
+  print(paste("Cluster", cluster, " is ALL RIGHTY"))
+}else
+{
+  print(paste("Cluster", cluster, " is MIXED"))
+}
   
 }
 
+#colnames(thisCluster)
 ```
 
 ```{r}
-
+cluster <- 1
+while (cluster <= max(clusterStats$wardSol))
+{
+#  print(paste("Cluster to test:", cluster))
+describeCluster(cluster)
+  cluster <- cluster +1 
+}
 ```
 
 
