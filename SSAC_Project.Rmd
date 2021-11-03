@@ -374,10 +374,12 @@ leader_BA_Pit <- scrape_savant_leaderboards(
 # Creating Clusters
 ```{r}
 fviz_nbclust(final_pitcher_data[c(2:37)], kmeans, method = "wss", k.max = 100) +
-  ggtitle("How Many Clusters") 
+  ggtitle("How Many Clusters") +
+    theme(text = element_text(size=4),
+        axis.text.x = element_text(angle=90, hjust=1)) 
 ```
 
-I will keep 27 clusters and use Ward's Method to determine my clusters. I will keep 27 clusters as there appears to be a plateau after 27.
+I will keep 27 clusters and use Ward's Method to determine my clusters. I will keep 43 clusters as there appears to be a plateau after 27.
 
 ```{r}
 # Using Wards Method to Create my Clusters
@@ -404,12 +406,13 @@ get_other_pitchers <- function(pitcherName, data = cluster_pitcher_data)
  justPitcherCluster <- (data%>%filter(name == pitcherName))$wardSol
  print(justPitcherCluster)
  
- otherPitchers <- (data%>%filter(wardSol == justPitcherCluster))$name
+ otherPitchers <- (data%>%filter(wardSol == justPitcherCluster)%>%arrange(name))$name
  
  return(otherPitchers)
 }
-get_other_pitchers("Chris Sale")
-cluster33 <- cluster_pitcher_data%>%filter(wardSol == 33)
+get_other_pitchers("Jacob deGrom")
+
+cluster16 <- cluster_pitcher_data%>%filter(wardSol == 16)
 
 getClusterPitchers <- function(cluster, data = cluster_pitcher_data)
 {
@@ -586,9 +589,7 @@ Offspeed: Offspeed pitches are designed to look like fastballs but are thrown sl
 
 Spin Rate: Spin rate is a measure of how often a ball spins during the time it is thrown to the plate. Spin rate is generally a measure of the quality of a pitch.
 
-Extension: NEGATIVE IS RIGHTY
-
-Break: Break is a measure of how much the ball moves in it's journey to the plate (horizontally or vertically). 
+Extension: Extension is the distance from the center of the pitching rubber that the pitcher releases the ball. For this data, I used the total x, z distance ($\sqrt{x^2+z^2}$) although if the x-coodrinate is negative I kept that to represent the difference between righties and lefties. In this situation a negative extension represents a right-handed pitcher.
 
 Starter: A starter is a pitcher who pitches once every five days, but pitches the most in total quantity. 
 
@@ -666,8 +667,8 @@ anova(clusterMod, bothMod, test = "LR")
 predicted_data <- filteredData %>%
   mutate(isHitP = predict(pitcherMod, filteredData, type = "response")) %>%
   mutate(isHitC = predict(clusterMod, filteredData, type = "response")) %>%
-  mutate(isHitBoth = predict(bothMod, filteredData, type = "response"))
-```
+  mutate(isHitBoth = predict(bothMod, filteredData, type = "response")) %>% select(player_name, first_name.x,last_name.x, Result, )
+``` 
 
 ```{r}
 mean(predicted_data$isHit)
@@ -685,7 +686,6 @@ sum(testSamp$isHitC)
 sum(testSamp$isHitP)
 ```
 
-
 ```{r}
 c <- ggplot(predicted_data, aes(x = isHitC, fill = as.factor(isHit))) +
    geom_density(alpha=.4)  +
@@ -702,8 +702,7 @@ p <- ggplot(predicted_data, aes(x = isHitP, fill = as.factor(isHit))) +
 
 cowplot::plot_grid(c,p)
 
+
+
 rbind(describe(x = predicted_data$isHitP), describe(x = predicted_data$isHitC))
 ```
-
-
-`
