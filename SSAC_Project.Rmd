@@ -389,6 +389,33 @@ plot(hcward, cex = 0.7)
 ```
 ```{r}
 library(ClusterR)
+
+dat = center_scale(final_pitcher_data, mean_center = T, sd_scale = T)  # centering and scaling the data
+
+opt_gmm = Optimal_Clusters_GMM(dat, max_clusters = 100, criterion = "BIC", 
+                               
+                               dist_mode = "maha_dist", seed_mode = "random_subset",
+                               
+                               km_iter = 10, em_iter = 10, var_floor = 1e-10, 
+                               
+                               plot_data = T)
+
+
+gmm = GMM(dat, 16, dist_mode = "maha_dist", seed_mode = "random_subset", km_iter = 20,
+          
+          em_iter = 20, verbose = F)          
+
+# predict centroids, covariance matrix and weights
+
+pr = predict_GMM(dat, gmm$centroids, gmm$covariance_matrices, gmm$weights)
+
+test <- cbind(final_pitcher_data, pr$cluster_proba)
+
+res
+
+gmm
+pr
+
 ```
 
 
