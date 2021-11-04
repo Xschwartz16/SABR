@@ -387,6 +387,11 @@ kc.dist <- dist(scale(final_pitcher_data[c(2:37)]))
 hcward <- hclust(kc.dist, method = "ward.D")
 plot(hcward, cex = 0.7)
 ```
+```{r}
+library(ClusterR)
+```
+
+
 
 ```{r}
 # Extra Wrangling
@@ -667,7 +672,7 @@ anova(clusterMod, bothMod, test = "LR")
 predicted_data <- filteredData %>%
   mutate(isHitP = predict(pitcherMod, filteredData, type = "response")) %>%
   mutate(isHitC = predict(clusterMod, filteredData, type = "response")) %>%
-  mutate(isHitBoth = predict(bothMod, filteredData, type = "response")) %>% select(player_name, first_name.x,last_name.x, Result, )
+  mutate(isHitBoth = predict(bothMod, filteredData, type = "response")) 
 ``` 
 
 ```{r}
