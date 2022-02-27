@@ -1,0 +1,373 @@
+---
+output:
+ pdf_document:
+  fig_height: 3
+  fig_width: 5
+ html_document:
+  fig_height: 3
+  fig_width: 5
+ word_document:
+  fig_height: 3
+  fig_width: 5
+---
+
+## Wrangling Baseball Savant Data
+### Xander Schwartz   
+
+```{r, setup = TRUE, include = FALSE}
+# Do not delete this chunk
+library(mosaic)
+library(readr)
+options(digits = 6)
+# load any other necessary packages here
+library(tidyr)
+library(ggplot2)
+library(DescTools)
+#devtools::install_github(repo = "BillPetti/baseballr") 
+library(baseballr)
+
+
+
+kable <- function(x, booktabs = TRUE, align = "c", format, digits = getOption("digits"), row.names = NA, col.names = NA, caption = NULL, label = NULL, format.args = list(), escape = TRUE, full_width = NULL, bootstrap_options = "basic", position = "center", latex_options = c("HOLD_position", "repeat_headers"), font_size = NULL, row_label_position = "l", ...) {
+  knitr::kable(x, booktabs = booktabs, align = align, format = format, digits = digits, row.names = row.names, col.names = col.names, caption = caption, label = label, format.args = format.args, escape = escape, ...) %>%
+    kableExtra::kable_styling(full_width = full_width, bootstrap_options = bootstrap_options, position = position, latex_options = latex_options, font_size = font_size, row_label_position = row_label_position, ...)
+}
+```
+
+<!-- TAKES AN HOUR+ TO RUN-------------------------------------------------------------------------------->
+
+# Data Read In 
+```{r eval=FALSE, include=FALSE}
+# Pitch By Pitch Savant Data
+
+storeH2 <- scrape_statcast_savant_batter_all(start_date = "2019-03-20", end_date = "2019-04-04")
+storeH3 <- scrape_statcast_savant_batter_all(start_date = "2019-04-05", end_date = "2019-04-13")
+storeH4 <- scrape_statcast_savant_batter_all(start_date = "2019-04-14", end_date = "2019-04-21")
+storeH5 <- scrape_statcast_savant_batter_all(start_date = "2019-04-22", end_date = "2019-05-01")
+storeH6 <- scrape_statcast_savant_batter_all(start_date = "2019-05-02", end_date = "2019-05-10")
+storeH7 <- scrape_statcast_savant_batter_all(start_date = "2019-05-11", end_date = "2019-05-19")
+storeH8 <- scrape_statcast_savant_batter_all(start_date = "2019-05-20", end_date = "2019-05-28")
+storeH9 <- scrape_statcast_savant_batter_all(start_date = "2019-05-29", end_date = "2019-06-05")
+storeH10 <- scrape_statcast_savant_batter_all(start_date = "2019-06-06", end_date = "2019-06-14")
+storeH11 <- scrape_statcast_savant_batter_all(start_date = "2019-06-15", end_date = "2019-06-23")
+storeH12 <- scrape_statcast_savant_batter_all(start_date = "2019-06-24", end_date = "2019-07-01")
+storeH13 <- scrape_statcast_savant_batter_all(start_date = "2019-07-02", end_date = "2019-07-11")
+storeH14 <- scrape_statcast_savant_batter_all(start_date = "2019-07-12", end_date = "2019-07-20")
+storeH15 <- scrape_statcast_savant_batter_all(start_date = "2019-07-21", end_date = "2019-07-29")
+storeH16 <- scrape_statcast_savant_batter_all(start_date = "2019-07-30", end_date = "2019-08-05")
+storeH17 <- scrape_statcast_savant_batter_all(start_date = "2019-08-06", end_date = "2019-08-14")
+storeH18 <- scrape_statcast_savant_batter_all(start_date = "2019-08-15", end_date = "2019-08-23")
+storeH19 <- scrape_statcast_savant_batter_all(start_date = "2019-08-24", end_date = "2019-09-01")
+storeH20 <- scrape_statcast_savant_batter_all(start_date = "2019-09-02", end_date = "2019-09-10")
+storeH21 <- scrape_statcast_savant_batter_all(start_date = "2019-09-11", end_date = "2019-09-19")
+storeH22 <- scrape_statcast_savant_batter_all(start_date = "2019-09-20", end_date = "2019-09-28")
+storeH23 <- scrape_statcast_savant_batter_all(start_date = "2019-09-29", end_date = "2019-10-05")
+
+ all_pitches19 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+                      storeH21, storeH22, storeH23)
+
+#Saving the very large dataset so I won't need to run the above code again
+ save(all_pitches19, file = "data-raw/SavantPitch19.rda")
+```
+```{r eval=FALSE, include=FALSE}
+storeH2 <- scrape_statcast_savant_batter_all(start_date = "2018-03-20", end_date = "2018-04-04")
+storeH3 <- scrape_statcast_savant_batter_all(start_date = "2018-04-05", end_date = "2018-04-13")
+storeH4 <- scrape_statcast_savant_batter_all(start_date = "2018-04-14", end_date = "2018-04-21")
+storeH5 <- scrape_statcast_savant_batter_all(start_date = "2018-04-22", end_date = "2018-05-01")
+storeH6 <- scrape_statcast_savant_batter_all(start_date = "2018-05-02", end_date = "2018-05-10")
+storeH7 <- scrape_statcast_savant_batter_all(start_date = "2018-05-11", end_date = "2018-05-19")
+storeH8 <- scrape_statcast_savant_batter_all(start_date = "2018-05-20", end_date = "2018-05-28")
+storeH9 <- scrape_statcast_savant_batter_all(start_date = "2018-05-29", end_date = "2018-06-05")
+storeH10 <- scrape_statcast_savant_batter_all(start_date = "2018-06-06", end_date = "2018-06-14")
+storeH11 <- scrape_statcast_savant_batter_all(start_date = "2018-06-15", end_date = "2018-06-23")
+storeH12 <- scrape_statcast_savant_batter_all(start_date = "2018-06-24", end_date = "2018-07-01")
+storeH13 <- scrape_statcast_savant_batter_all(start_date = "2018-07-02", end_date = "2018-07-11")
+storeH14 <- scrape_statcast_savant_batter_all(start_date = "2018-07-12", end_date = "2018-07-20")
+storeH15 <- scrape_statcast_savant_batter_all(start_date = "2018-07-21", end_date = "2018-07-29")
+storeH16 <- scrape_statcast_savant_batter_all(start_date = "2018-07-30", end_date = "2018-08-05")
+storeH17 <- scrape_statcast_savant_batter_all(start_date = "2018-08-06", end_date = "2018-08-14")
+storeH18 <- scrape_statcast_savant_batter_all(start_date = "2018-08-15", end_date = "2018-08-23")
+storeH19 <- scrape_statcast_savant_batter_all(start_date = "2018-08-24", end_date = "2018-09-01")
+storeH20 <- scrape_statcast_savant_batter_all(start_date = "2018-09-02", end_date = "2018-09-10")
+storeH21 <- scrape_statcast_savant_batter_all(start_date = "2018-09-11", end_date = "2018-09-19")
+storeH22 <- scrape_statcast_savant_batter_all(start_date = "2018-09-20", end_date = "2018-09-28")
+storeH23 <- scrape_statcast_savant_batter_all(start_date = "2018-09-29", end_date = "2018-10-05")
+
+ all_pitches18 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+                      storeH21, storeH22, storeH23)
+#Saving the very large dataset so I won't need to run the above code again
+ save(all_pitches18, file = "data-raw/SavantPitch18.rda")
+```
+```{r eval=FALSE, include=FALSE}
+storeH2 <- scrape_statcast_savant_batter_all(start_date = "2017-03-20", end_date = "2017-04-04")
+storeH3 <- scrape_statcast_savant_batter_all(start_date = "2017-04-05", end_date = "2017-04-13")
+storeH4 <- scrape_statcast_savant_batter_all(start_date = "2017-04-14", end_date = "2017-04-21")
+storeH5 <- scrape_statcast_savant_batter_all(start_date = "2017-04-22", end_date = "2017-05-01")
+storeH6 <- scrape_statcast_savant_batter_all(start_date = "2017-05-02", end_date = "2017-05-10")
+storeH7 <- scrape_statcast_savant_batter_all(start_date = "2017-05-11", end_date = "2017-05-19")
+storeH8 <- scrape_statcast_savant_batter_all(start_date = "2017-05-20", end_date = "2017-05-28")
+storeH9 <- scrape_statcast_savant_batter_all(start_date = "2017-05-29", end_date = "2017-06-05")
+storeH10 <- scrape_statcast_savant_batter_all(start_date = "2017-06-06", end_date = "2017-06-14")
+storeH11 <- scrape_statcast_savant_batter_all(start_date = "2017-06-15", end_date = "2017-06-23")
+storeH12 <- scrape_statcast_savant_batter_all(start_date = "2017-06-24", end_date = "2017-07-01")
+storeH13 <- scrape_statcast_savant_batter_all(start_date = "2017-07-02", end_date = "2017-07-11")
+storeH14 <- scrape_statcast_savant_batter_all(start_date = "2017-07-12", end_date = "2017-07-20")
+storeH15 <- scrape_statcast_savant_batter_all(start_date = "2017-07-21", end_date = "2017-07-29")
+storeH16 <- scrape_statcast_savant_batter_all(start_date = "2017-07-30", end_date = "2017-08-05")
+storeH17 <- scrape_statcast_savant_batter_all(start_date = "2017-08-06", end_date = "2017-08-14")
+storeH18 <- scrape_statcast_savant_batter_all(start_date = "2017-08-15", end_date = "2017-08-23")
+storeH19 <- scrape_statcast_savant_batter_all(start_date = "2017-08-24", end_date = "2017-09-01")
+storeH20 <- scrape_statcast_savant_batter_all(start_date = "2017-09-02", end_date = "2017-09-10")
+storeH21 <- scrape_statcast_savant_batter_all(start_date = "2017-09-11", end_date = "2017-09-19")
+storeH22 <- scrape_statcast_savant_batter_all(start_date = "2017-09-20", end_date = "2017-09-28")
+storeH23 <- scrape_statcast_savant_batter_all(start_date = "2017-09-29", end_date = "2017-10-05")
+
+ all_pitches17 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+                      storeH21, storeH22, storeH23)
+#Saving the very large dataset so I won't need to run the above code again
+ save(all_pitches17, file = "data-raw/SavantPitch17.rda")
+```
+```{r eval=FALSE, include=FALSE}
+storeH2 <- scrape_statcast_savant_batter_all(start_date = "2016-03-20", end_date = "2016-04-04")
+storeH3 <- scrape_statcast_savant_batter_all(start_date = "2016-04-05", end_date = "2016-04-13")
+storeH4 <- scrape_statcast_savant_batter_all(start_date = "2016-04-14", end_date = "2016-04-21")
+storeH5 <- scrape_statcast_savant_batter_all(start_date = "2016-04-22", end_date = "2016-05-01")
+storeH6 <- scrape_statcast_savant_batter_all(start_date = "2016-05-02", end_date = "2016-05-10")
+storeH7 <- scrape_statcast_savant_batter_all(start_date = "2016-05-11", end_date = "2016-05-19")
+storeH8 <- scrape_statcast_savant_batter_all(start_date = "2016-05-20", end_date = "2016-05-28")
+storeH9 <- scrape_statcast_savant_batter_all(start_date = "2016-05-29", end_date = "2016-06-05")
+storeH10 <- scrape_statcast_savant_batter_all(start_date = "2016-06-06", end_date = "2016-06-14")
+storeH11 <- scrape_statcast_savant_batter_all(start_date = "2016-06-15", end_date = "2016-06-23")
+storeH12 <- scrape_statcast_savant_batter_all(start_date = "2016-06-24", end_date = "2016-07-01")
+storeH13 <- scrape_statcast_savant_batter_all(start_date = "2016-07-02", end_date = "2016-07-11")
+storeH14 <- scrape_statcast_savant_batter_all(start_date = "2016-07-12", end_date = "2016-07-20")
+storeH15 <- scrape_statcast_savant_batter_all(start_date = "2016-07-21", end_date = "2016-07-29")
+storeH16 <- scrape_statcast_savant_batter_all(start_date = "2016-07-30", end_date = "2016-08-05")
+storeH17 <- scrape_statcast_savant_batter_all(start_date = "2016-08-06", end_date = "2016-08-14")
+storeH18 <- scrape_statcast_savant_batter_all(start_date = "2016-08-15", end_date = "2016-08-23")
+storeH19 <- scrape_statcast_savant_batter_all(start_date = "2016-08-24", end_date = "2016-09-01")
+storeH20 <- scrape_statcast_savant_batter_all(start_date = "2016-09-02", end_date = "2016-09-10")
+storeH21 <- scrape_statcast_savant_batter_all(start_date = "2016-09-11", end_date = "2016-09-19")
+storeH22 <- scrape_statcast_savant_batter_all(start_date = "2016-09-20", end_date = "2016-09-28")
+storeH23 <- scrape_statcast_savant_batter_all(start_date = "2016-09-29", end_date = "2016-10-05")
+
+ all_pitches16 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+                      storeH21, storeH22, storeH23)
+#Saving the very large dataset so I won't need to run the above code again
+ save(all_pitches16, file = "data-raw/SavantPitch16.rda")
+```
+```{r eval=FALSE, include=FALSE}
+storeH2 <- scrape_statcast_savant_batter_all(start_date = "2015-03-20", end_date = "2015-04-04")
+storeH3 <- scrape_statcast_savant_batter_all(start_date = "2015-04-05", end_date = "2015-04-13")
+storeH4 <- scrape_statcast_savant_batter_all(start_date = "2015-04-14", end_date = "2015-04-21")
+storeH5 <- scrape_statcast_savant_batter_all(start_date = "2015-04-22", end_date = "2015-05-01")
+storeH6 <- scrape_statcast_savant_batter_all(start_date = "2015-05-02", end_date = "2015-05-10")
+storeH7 <- scrape_statcast_savant_batter_all(start_date = "2015-05-11", end_date = "2015-05-19")
+storeH8 <- scrape_statcast_savant_batter_all(start_date = "2015-05-20", end_date = "2015-05-28")
+storeH9 <- scrape_statcast_savant_batter_all(start_date = "2015-05-29", end_date = "2015-06-05")
+storeH10 <- scrape_statcast_savant_batter_all(start_date = "2015-06-06", end_date = "2015-06-14")
+storeH11 <- scrape_statcast_savant_batter_all(start_date = "2015-06-15", end_date = "2015-06-23")
+storeH12 <- scrape_statcast_savant_batter_all(start_date = "2015-06-24", end_date = "2015-07-01")
+storeH13 <- scrape_statcast_savant_batter_all(start_date = "2015-07-02", end_date = "2015-07-11")
+storeH14 <- scrape_statcast_savant_batter_all(start_date = "2015-07-12", end_date = "2015-07-20")
+storeH15 <- scrape_statcast_savant_batter_all(start_date = "2015-07-21", end_date = "2015-07-29")
+storeH16 <- scrape_statcast_savant_batter_all(start_date = "2015-07-30", end_date = "2015-08-05")
+storeH17 <- scrape_statcast_savant_batter_all(start_date = "2015-08-06", end_date = "2015-08-14")
+storeH18 <- scrape_statcast_savant_batter_all(start_date = "2015-08-15", end_date = "2015-08-23")
+storeH19 <- scrape_statcast_savant_batter_all(start_date = "2015-08-24", end_date = "2015-09-01")
+storeH20 <- scrape_statcast_savant_batter_all(start_date = "2015-09-02", end_date = "2015-09-10")
+storeH21 <- scrape_statcast_savant_batter_all(start_date = "2015-09-11", end_date = "2015-09-19")
+storeH22 <- scrape_statcast_savant_batter_all(start_date = "2015-09-20", end_date = "2015-09-28")
+storeH23 <- scrape_statcast_savant_batter_all(start_date = "2015-09-29", end_date = "2015-10-05")
+
+ all_pitches15 <- rbind(storeH2, storeH3, storeH4, storeH5, storeH6, storeH7, storeH8,
+                     storeH9, storeH10, storeH11, storeH12, storeH13, storeH14,
+                      storeH15, storeH16, storeH17, storeH18, storeH19, storeH20,
+                      storeH21, storeH22, storeH23)
+
+#Saving the very large dataset so I won't need to run the above code again
+ save(all_pitches15, file = "data-raw/SavantPitch15.rda")
+```
+```{r eval=FALSE, include=FALSE}
+ load("data-raw/SavantPitch19.rda")
+load("data-raw/SavantPitch18.rda")
+load("data-raw/SavantPitch17.rda")
+load("data-raw/SavantPitch16.rda")
+load("data-raw/SavantPitch15.rda")
+```
+```{r eval=FALSE, include=FALSE}
+pitchers_2015 <- all_pitches15 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name,game_date)
+
+pitchers_2016 <-all_pitches16 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name,game_date)
+
+pitchers_2017 <- all_pitches17 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name,game_date)
+
+pitchers_2018 <- all_pitches18 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name,game_date)
+
+pitchers_2019 <- all_pitches19 %>% select(pitcher,  release_pos_x,release_pos_z,release_spin_rate,release_speed,pitch_type,pitch_name,game_date)
+
+all_pitchers <- rbind(pitchers_2015,pitchers_2016,pitchers_2017,pitchers_2018,pitchers_2019)
+```
+```{r eval=FALSE, include=FALSE}
+pitcher_info <- all_pitchers %>% group_by(pitcher, pitch_name,pitch_type) %>%
+  summarise(count = n(), release_speed = mean(release_speed, na.rm=TRUE), release_pos_z = mean(release_pos_z, na.rm=TRUE), release_pos_x = mean(release_pos_x, na.rm=TRUE),release_spin_rate= mean(release_spin_rate, na.rm=TRUE)) %>% filter(count >= 100)%>%drop_na()
+
+save(pitcher_info, file = "data/pitcher_info.rda")
+```
+```{r eval=FALSE, include=FALSE}
+all_pitches15 <- all_pitches15 %>%
+  filter(!is.na(events)) %>%
+  select(player_name, pitcher, batter, events,game_date) %>%
+  mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER")))))))) %>% mutate(year = 2015)
+
+all_pitches16 <- all_pitches16 %>%
+  filter(!is.na(events)) %>%
+  select(player_name, pitcher, batter, events,game_date) %>%
+  mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2016)
+
+all_pitches17 <- all_pitches17 %>%
+  filter(!is.na(events)) %>%
+  select(player_name, pitcher, batter, events,game_date) %>%
+  mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2017)
+
+all_pitches18 <- all_pitches18 %>%
+  filter(!is.na(events)) %>%
+  select(player_name, pitcher, batter, events,game_date) %>%
+  mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2018)
+
+all_pitches19 <- all_pitches19 %>%
+  filter(!is.na(events)) %>%
+  select(player_name, pitcher, batter, events,game_date) %>%
+  mutate(Result = ifelse(str_detect(events, "ball"), "ball", ifelse(str_detect(events, "strike")& !str_detect(events, "strikeout") | str_detect(events, "foul"), "strike", ifelse(str_detect(events, "single"), "single", ifelse(str_detect(events, "double"), "double", ifelse(str_detect(events, "triple"), "triple", ifelse(str_detect(events, "home_run"), "home run", ifelse(str_detect(events, "out")|str_detect(events, "error"), "out", "OTHER"))))))))%>% mutate(year = 2019)
+
+all_pitches <- rbind(all_pitches15,all_pitches16,all_pitches17,all_pitches18,all_pitches19)
+save(all_pitches, file = "data/allPitches.rda")
+```
+```{r eval=FALSE, include=FALSE}
+
+load("data/pitcher_info.rda")
+
+pitcher_info <- pitcher_info %>%
+  select(-pitch_type)
+
+table(pitcher_info$pitch_name)
+
+pitcher_info <- pitcher_info %>%
+  filter(pitch_name != "Eephus" & pitch_name != "Fastball" & pitch_name != "Forkball" & pitch_name != "Knuckleball" & pitch_name != "Screwball") %>%
+  filter(pitcher != 607560) # This pitcher is screwing things up
+
+pitcher_info <- pitcher_info %>%
+  mutate(extension = ifelse(release_pos_x > 0, sqrt(release_pos_x^2 + release_pos_z^2), -sqrt(release_pos_x^2 + release_pos_z^2))) %>%
+  select(-release_pos_x, -release_pos_z)
+
+
+
+pitcher_pivoted <- pitcher_info %>%
+  group_by(pitcher) %>%
+  mutate(row = row_number()) %>%
+  tidyr::pivot_wider(id_cols = pitcher, names_from = pitch_name, values_from = count:extension)
+
+pitcher_pivoted[is.na(pitcher_pivoted)] <- 0
+
+names(pitcher_pivoted) <- janitor::make_clean_names(names(pitcher_pivoted))
+```
+```{r eval=FALSE, include=FALSE}
+ pitcher_pivoted <- pitcher_pivoted %>% rowwise() %>% mutate(
+  total_pitches =
+      count_2_seam_fastball +
+      count_4_seam_fastball +
+      count_changeup +
+      count_slider +
+      count_sinker +
+      count_curveball +
+      count_cutter +
+      count_split_finger + count_knuckle_curve)
+
+final_pitcher_data <- pitcher_pivoted %>% mutate(
+    rate_knuckle_curve = count_knuckle_curve / total_pitches,
+  rate_2_seam_fastball = count_2_seam_fastball / total_pitches,
+  rate_4_seam_fastball = count_4_seam_fastball / total_pitches,
+  rate_4_changeup = count_changeup / total_pitches,
+  rate_slider = count_slider / total_pitches,
+  rate_sinker = count_sinker / total_pitches,
+  rate_curveball = count_curveball / total_pitches,
+  rate_cutter = count_cutter / total_pitches,
+  rate_split_finger = count_split_finger / total_pitches
+) %>% select(-count_knuckle_curve,-count_2_seam_fastball,-count_4_seam_fastball,-count_changeup,-count_slider,-count_sinker,-count_sinker,-count_curveball,-count_cutter,-count_split_finger, -total_pitches)
+
+save(final_pitcher_data, file = "data/final_pitcher_data.rda")
+```
+
+
+```{r}
+#Getting info for future joins. 
+ID_lookup <- baseballr::get_chadwick_lu() %>%
+  filter(mlb_played_last >= 2015) %>%
+  mutate(name = paste(name_first, name_last)) %>%
+  select(name, key_mlbam)
+
+save(ID_lookup, file = "data/ID_Lookup.rda")
+
+```
+
+```{r}
+#Getting season long data from Baseball Savant. 
+leader_BA <- scrape_savant_leaderboards(
+  leaderboard = "expected_statistics",
+  year = c(2015, 2016, 2017, 2018, 2019),
+  abs = 0,
+  min_pa = 1,
+  min_pitches = 100,
+  min_field = "q",
+  min_run = 0,
+  player_type = "batter",
+  fielding_type = "player",
+  oaa_position = "",
+  oaa_roles = "",
+  team = "",
+  arsenal_type = "n_",
+  run_type = "raw",
+  min2b = 0,
+  min3b = 0,
+  position = "",
+  bats = "",
+  hand = ""
+)
+
+save(leader_BA, file = "data/leader_BA.rda")
+
+```
+
+```{r}
+leader_BA_Pit <- scrape_savant_leaderboards(
+  leaderboard = "expected_statistics",
+  year = c(2015, 2016, 2017, 2018, 2019),
+  abs = 0,
+  min_pa = 1,
+  min_pitches = 100,
+  min_field = "q",
+  min_run = 0,
+  player_type = "pitcher",
+  fielding_type = "player",
+  oaa_position = "",
+  oaa_roles = "",
+  team = "",
+  arsenal_type = "n_",
+  run_type = "raw",
+  min2b = 0,
+  min3b = 0,
+  position = "",
+  bats = "",
+  hand = ""
+)
+
+save(leader_BA_Pit, file = "data/leader_BA_Pit.rda")
+```
